@@ -12,6 +12,10 @@
     "tests"
   ],
   "dependencies": {
-    "angularjs": "~1.2.22"
+    "angularjs": "~1.2.22",
+    "font-awesome": "~4.1.0",
+    "angular-ui-router": "~0.2.10",
+    "normalize-css": "~3.0.1",
+    "bootstrap": "~3.2.0"
   }
 }

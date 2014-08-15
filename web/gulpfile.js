@@ -7,21 +7,28 @@ var concat = require('gulp-concat');
 
 var bowerSrc = 'app/bower_components';
 var dev = {
+  index: 'app/index.html',
   scripts: {
-    src: 'app/scripts',
+    src: 'app/components',
     dest: 'app/js'
   },
-  templates: {
-    src: 'app/views',
-    dest: 'app/templates'
+  html: {
+    src: 'app/components'
   },
   vendor: {
-    list: [
-      bowerSrc + '/angularjs/angular.js'
+    js: [
+      bowerSrc + '/angularjs/angular.js',
+      bowerSrc + '/angular-ui-router/release/angular-ui-router.js',
+      bowerSrc + '/jquery/dist/jquery.js',
+    ],
+    css: [
+      bowerSrc + '/font-awesome/css/font-awesome.css',
+      bowerSrc + '/normalize-css/normalize.css',
+      bowerSrc + '/bootstrap/dist/css/bootstrap.css'
     ]
   },
   sass: {
-    src: 'app/sass',
+    src: 'app/components',
     dest: 'app/css'
   },
   images: {
@@ -56,11 +63,25 @@ gulp.task('compile-scss', function() {
 });
 
 gulp.task('compile-vendor', function() {
-  return gulp.src(dev.vendor.list)
-    .pipe(concat('plugins.js'))
+  gulp.src(dev.vendor.css)
+    .pipe(concat('vendor.css'))
+    .pipe(gulp.dest(dev.sass.dest))
+    .pipe(browserSync.reload({stream:true}));
+  gulp.src(dev.vendor.js)
+    .pipe(concat('vendor.js'))
     .pipe(gulp.dest(dev.scripts.dest))
     .pipe(browserSync.reload({stream:true}));
 });
+
+gulp.task('index', function() {
+  return gulp.src(dev.index)
+    .pipe(browserSync.reload({stream:true}));
+});
+
+gulp.task('html', function() {
+  return gulp.src(dev.html.src + '/**/*.html')
+    .pipe(browserSync.reload({stream:true}));
+})
 
 gulp.task('browser-sync', function() {
   browserSync({
@@ -79,6 +100,8 @@ gulp.task('watch', [
     gulp.watch(dev.scripts.src + '/**/*.js', ['compile-scripts']);
     gulp.watch(dev.vendor.list, ['compile-vendor']);
     gulp.watch(dev.sass.src + '/**/*.scss', ['compile-scss']);
+    gulp.watch(dev.index, ['index']);
+    gulp.watch(dev.html.src + '/**/*.html', ['html']);
   }
 );
 
