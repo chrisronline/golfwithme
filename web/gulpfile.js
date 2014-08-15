@@ -3,7 +3,6 @@ var del = require('del');
 var plumber = require('gulp-plumber');
 var browserSync = require('browser-sync');
 var compass = require('gulp-compass');
-var jade = require('gulp-jade');
 var concat = require('gulp-concat');
 
 var bowerSrc = 'app/bower_components';
@@ -56,18 +55,6 @@ gulp.task('compile-scss', function() {
     .pipe(browserSync.reload({stream:true}));
 });
 
-gulp.task('compile-templates', function() {
-  gulp.src(dev.templates.src + '/index.jade')
-    .pipe(jade({pretty:true}))
-    .pipe(gulp.dest('app/'))
-    .pipe(browserSync.reload({stream:true}));
-
-  return gulp.src(dev.templates.src + '/**/*.jade')
-    .pipe(jade({pretty:true}))
-    .pipe(gulp.dest(dev.templates.dest))
-    .pipe(browserSync.reload({stream:true}));
-});
-
 gulp.task('compile-vendor', function() {
   return gulp.src(dev.vendor.list)
     .pipe(concat('plugins.js'))
@@ -86,12 +73,10 @@ gulp.task('browser-sync', function() {
 
 gulp.task('watch', [
   'compile-scripts',
-  'compile-templates',
   'compile-vendor',
   'compile-scss',
   'browser-sync'], function() {
     gulp.watch(dev.scripts.src + '/**/*.js', ['compile-scripts']);
-    gulp.watch(dev.templates.src + '/**/*.jade', ['compile-templates']);
     gulp.watch(dev.vendor.list, ['compile-vendor']);
     gulp.watch(dev.sass.src + '/**/*.scss', ['compile-scss']);
   }
