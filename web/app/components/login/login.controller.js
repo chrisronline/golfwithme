@@ -9,14 +9,14 @@
       });
   }
 
-  function LoginForm() {
+  function LoginForm(LoginService) {
     return {
       validationRules: {
         email: { required: true },
         password: { required: true }
       },
       submit: function(data) {
-        console.log('hi');
+        return LoginService.login(data);
       }
     };
   }

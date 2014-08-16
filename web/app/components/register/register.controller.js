@@ -9,13 +9,13 @@
       });
   }
 
-  function RegisterCtrl($scope, RegisterService) {
+  function RegisterCtrl($scope) {
     var registerCtrl = this;
 
     registerCtrl.user = {};
   }
 
-  function RegisterForm() {
+  function RegisterForm(RegisterService) {
     return {
       validationRules: {
         agreed: {
@@ -37,7 +37,7 @@
         }
       },
       submit: function(data) {
-        console.log('hi');
+        return RegisterService.register(data);
       }
     };
   }
