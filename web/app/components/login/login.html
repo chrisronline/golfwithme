@@ -1,1 +1,9 @@
-<h2>Login</h2>
+<div class="login" ng-controller="LoginCtrl as login">
+  <h2>Login</h2>
+
+  <form form-for="login.user" service="LoginForm">
+    <text-field label="Email" attribute="email"></text-field>
+    <text-field label="Password" attribute="password" type="password"></text-field>
+    <submit-button label="Login"></submit-button>
+  </form>
+</div>

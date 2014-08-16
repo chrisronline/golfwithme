@@ -20,11 +20,15 @@ var dev = {
       bowerSrc + '/angularjs/angular.js',
       bowerSrc + '/angular-ui-router/release/angular-ui-router.js',
       bowerSrc + '/jquery/dist/jquery.js',
+      bowerSrc + '/lodash/dist/lodash.js',
+      bowerSrc + '/restangular/dist/restangular.js',
+      bowerSrc + '/angular-form-for/dist/form-for.js'
     ],
     css: [
       bowerSrc + '/font-awesome/css/font-awesome.css',
       bowerSrc + '/normalize-css/normalize.css',
-      bowerSrc + '/bootstrap/dist/css/bootstrap.css'
+      // bowerSrc + '/angular-form-for/dist/form-for.css'
+      // bowerSrc + '/bootstrap/dist/css/bootstrap.css'
     ]
   },
   sass: {

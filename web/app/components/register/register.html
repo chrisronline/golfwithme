@@ -1,0 +1,10 @@
+<div class="register" ng-controller="RegisterCtrl as register">
+  <h2>Register</h2>
+
+  <form form-for="register.user" service="RegisterForm">
+    <text-field label="Email" attribute="email"></text-field>
+    <text-field label="Password" attribute="password" type="password"></text-field>
+    <checkbox-field label="I agree to the TOS" attribute="agreed"></checkbox-field>
+    <submit-button label="Sign Up"></submit-button>
+  </form>
+</div>
