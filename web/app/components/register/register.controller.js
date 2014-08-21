@@ -9,10 +9,27 @@
       });
   }
 
-  function RegisterCtrl($scope) {
+  function RegisterCtrl($scope, $auth, $log) {
     var registerCtrl = this;
 
     registerCtrl.user = {};
+    registerCtrl.waiting = false;
+
+    registerCtrl.authenticate = function(provider) {
+      registerCtrl.waiting = true;
+      $auth.authenticate(provider).then(
+        function() {
+          $log.debug('success');
+        },
+        function() {
+          $log.debug('error');
+        }
+      ).finally(
+        function() {
+          registerCtrl.waiting = false;
+        }
+      )
+    };
   }
 
   function RegisterForm(RegisterService) {

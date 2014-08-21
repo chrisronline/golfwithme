@@ -2,7 +2,8 @@ var gulp = require('gulp');
 var del = require('del');
 var plumber = require('gulp-plumber');
 var browserSync = require('browser-sync');
-var compass = require('gulp-compass');
+// var compass = require('gulp-compass');
+var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 
 var bowerSrc = 'app/bower_components';
@@ -22,13 +23,24 @@ var dev = {
       bowerSrc + '/jquery/dist/jquery.js',
       bowerSrc + '/lodash/dist/lodash.js',
       bowerSrc + '/restangular/dist/restangular.js',
-      bowerSrc + '/angular-form-for/dist/form-for.js'
+      bowerSrc + '/angular-form-for/dist/form-for.js',
+      bowerSrc + '/ladda/js/spin.js',
+      bowerSrc + '/ladda/js/ladda.js',
+      bowerSrc + '/angular-ladda/src/angular-ladda.js',
+      bowerSrc + '/satellizer/satellizer.js',
+      bowerSrc + '/moment/moment.js',
+      bowerSrc + '/bootstrap-sass-official/assets/javascripts/bootstrap.js',
+      bowerSrc + '/angular-bootstrap/ui-bootstrap-tpls.js'
     ],
     css: [
       bowerSrc + '/font-awesome/css/font-awesome.css',
-      bowerSrc + '/normalize-css/normalize.css',
-      // bowerSrc + '/angular-form-for/dist/form-for.css'
-      // bowerSrc + '/bootstrap/dist/css/bootstrap.css'
+      bowerSrc + '/ladda/dist/ladda.min.css',
+    ],
+    scss: [
+      bowerSrc + '/bootstrap-sass-official/assets/stylesheets/**/*.scss'
+    ],
+    fonts: [
+      bowerSrc + '/font-awesome/fonts/*',
     ]
   },
   sass: {
@@ -42,6 +54,10 @@ var dev = {
   bower: {
     src: bowerSrc
   },
+  fonts: {
+    src: 'app/fonts',
+    dest: 'app/fonts'
+  }
 };
 
 gulp.task('compile-scripts', function() {
@@ -52,14 +68,14 @@ gulp.task('compile-scripts', function() {
     .pipe(browserSync.reload({stream:true}));
 });
 
-gulp.task('compile-scss', function() {
+gulp.task('clean-css', function(cb) {
+  del([dev.sass.dest], cb);
+})
+gulp.task('compile-scss', ['clean-css', 'compile-vendor'], function() {
   return gulp.src(dev.sass.src + '/**/*.scss')
     .pipe(plumber())
-    .pipe(compass({
-      import_path: dev.bower.src,
-      css: dev.sass.dest,
-      sass: dev.sass.src,
-      image: dev.images.src
+    .pipe(sass({
+      includePaths: [dev.bower.src]
     }))
     .pipe(concat('main.css'))
     .pipe(gulp.dest(dev.sass.dest))
@@ -67,15 +83,25 @@ gulp.task('compile-scss', function() {
 });
 
 gulp.task('compile-vendor', function() {
-  gulp.src(dev.vendor.css)
-    .pipe(concat('vendor.css'))
-    .pipe(gulp.dest(dev.sass.dest))
-    .pipe(browserSync.reload({stream:true}));
-  gulp.src(dev.vendor.js)
-    .pipe(concat('vendor.js'))
-    .pipe(gulp.dest(dev.scripts.dest))
-    .pipe(browserSync.reload({stream:true}));
+  if (dev.vendor.css.length) {
+    gulp.src(dev.vendor.css)
+      .pipe(concat('vendor.css'))
+      .pipe(gulp.dest(dev.sass.dest))
+      .pipe(browserSync.reload({stream:true}));
+  }
+  if (dev.vendor.js.length) {
+    gulp.src(dev.vendor.js)
+      .pipe(concat('vendor.js'))
+      .pipe(gulp.dest(dev.scripts.dest))
+      .pipe(browserSync.reload({stream:true}));
+  }
 });
+
+gulp.task('assemble-fonts', function() {
+  gulp.src(dev.vendor.fonts)
+    .pipe(gulp.dest(dev.fonts.dest))
+    .pipe(browserSync.reload({stream:true}));
+})
 
 gulp.task('index', function() {
   return gulp.src(dev.index)
@@ -100,6 +126,7 @@ gulp.task('watch', [
   'compile-scripts',
   'compile-vendor',
   'compile-scss',
+  'assemble-fonts',
   'browser-sync'], function() {
     gulp.watch(dev.scripts.src + '/**/*.js', ['compile-scripts']);
     gulp.watch(dev.vendor.list, ['compile-vendor']);
