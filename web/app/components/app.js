@@ -7,7 +7,8 @@
     'formFor',
     'Satellizer',
     'angular-ladda',
-    'ui.bootstrap'])
+    'ui.bootstrap',
+    'angular-promise-cache'])
 
     .config(function($urlRouterProvider) {
       $urlRouterProvider.when('', '/');

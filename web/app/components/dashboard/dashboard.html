@@ -1,18 +1,9 @@
 <div class="dashboard" ng-controller="DashboardCtrl as dashboard">
   <h2>Dashboard</h2>
 
-  <h3>When do you want to play?</h3>
-  <div class="checkbox disabled"><label><input type="checkbox" value="" disabled>Monday - 8/25/2014</label></div>
-  <div class="checkbox disabled"><label><input type="checkbox" value="" disabled>Tuesday - 8/26/2014</label></div>
-  <div class="checkbox"><label><input type="checkbox" value="" checked>Wednesday - 8/27/2014</label></div>
-  <div class="checkbox"><label><input type="checkbox" value="">Thursday - 8/28/2014</label></div>
-  <div class="checkbox"><label><input type="checkbox" value="">Friday - 8/29/2014</label></div>
-  <div class="checkbox"><label><input type="checkbox" value="">Saturday - 8/30/2014</label></div>
-  <div class="checkbox"><label><input type="checkbox" value="">Sunday - 8/31/2014</label></div>
+  <play-now></play-now>
 
-  <button type="submit" class="btn btn-default" ng-click="dashboard.find()" ladda="dashboard.finding" data-style="expand-left">Find People</button>
-
-  <pre>{{dashboard.matches|json}}</pre>
+  <!-- <pre>{{dashboard.matches|json}}</pre>
   <ul>
     <li ng-repeat="user in dashboard.users">
       <div class="row">
@@ -26,5 +17,5 @@
         </div>
       </div>
     </li>
-  </ul>
+  </ul> -->
 </div>

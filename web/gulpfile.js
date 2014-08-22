@@ -30,7 +30,8 @@ var dev = {
       bowerSrc + '/satellizer/satellizer.js',
       bowerSrc + '/moment/moment.js',
       bowerSrc + '/bootstrap-sass-official/assets/javascripts/bootstrap.js',
-      bowerSrc + '/angular-bootstrap/ui-bootstrap-tpls.js'
+      bowerSrc + '/angular-bootstrap/ui-bootstrap-tpls.js',
+      bowerSrc + '/angular-promise-cache/angular-promise-cache.js'
     ],
     css: [
       bowerSrc + '/font-awesome/css/font-awesome.css',

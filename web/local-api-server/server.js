@@ -53,9 +53,10 @@ var locations = [
 var playDates = [
   {
     id: 1,
-    date: moment.utc('08/23/2014 8:00am', 'MM/DD/YYYY H:mma'),
+    date: moment.utc('2014-08-28T8:00:00-04:00', 'YYYY-MM-DDTHH:mm:ssZ'),
     location: 1,
-    players: [{ id: 1 }, { id: 2 }]
+    players: [1, 2],
+    maxPlayers: 4
   }
 ];
 
@@ -76,20 +77,35 @@ var users = [
   }
 ];
 
-app.post('/api/v1/find', function(req, res) {
-  var date = moment.utc(req.body.date);
-  var matches = [];
-  _.each(playDates, function(playDate) {
-    console.log(date.format(), playDate.date.format());
-    if (playDate.date.isSame(date, 'day')) {
-      matches.push(playDate);
-    }
+var api = '/api/v1';
+
+app.post(api + '/find', function(req, res) {
+  var dates = _.map(req.body.dates, function(date) {
+    var utc = moment(date).utc();
+    // console.log(moment(date).format());
+    return utc;
   });
 
+  var matches = [];
+  _.each(playDates, function(playDate) {
+    _.each(dates, function(date) {
+      if (playDate.date.isSame(date, 'day')) {
+        playDate.players = _.map(playDate.players, function(playerId) {
+          return _.find(users, { id: playerId });
+        })
+        matches.push(playDate);
+      }
+    });
+  });
 
   res.send({
     matches: matches
   });
+});
+
+app.get(api + '/account/:accountId', function(req, res) {
+  var account = _.find(users, { id: parseInt(req.params.accountId) });
+  res.send(account);
 });
 
 // function createJwtToken(user) {
