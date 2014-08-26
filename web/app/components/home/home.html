@@ -1,9 +1,25 @@
-<div id="home" ng-controller="HomeCtrl as home">
-  <h2>Hi!</h2>
-
-  <p>Tired of playing golf by yourself? Tired of missing tee times because that one friend never shows up?</p>
-  <p>Signup today and find local golfers who play according to your schedule!</p>
-
-  <button ui-sref="login">Login</button>
-  <button ui-sref="register">Sign Up</button>
-</div>
+<article id="home" ng-controller="HomeCtrl as home">
+  <header>
+    <h2>Play Now</h2>
+  </header>
+  <div class="row">
+    <div class="col-lg-4">
+      <h3>Search</h3>
+      <p>Search for local golfers using various critera such as handicap and play style</p>
+    </div>
+    <div class="col-lg-4">
+      <h3>Connect</h3>
+      <p>Connect with golfers to start planning future golf outings</p>
+    </div>
+    <div class="col-lg-4">
+      <h3>Play</h3>
+      <p>Get on the course and play more golf!</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <button class="btn btn-default" ui-sref="login">Login</button>
+      <button class="btn btn-default" ui-sref="register">Sign Up</button>
+    </div>
+  </div>
+</article>

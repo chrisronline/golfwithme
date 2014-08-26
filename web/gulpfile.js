@@ -1,10 +1,11 @@
 var gulp = require('gulp');
-var del = require('del');
 var plumber = require('gulp-plumber');
 var browserSync = require('browser-sync');
-// var compass = require('gulp-compass');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
+var rimraf = require('gulp-rimraf');
+var gulpFilter = require('gulp-filter');
+var order = require('gulp-order');
 
 var bowerSrc = 'app/bower_components';
 var dev = {
@@ -18,27 +19,27 @@ var dev = {
   },
   vendor: {
     js: [
-      bowerSrc + '/angularjs/angular.js',
-      bowerSrc + '/angular-ui-router/release/angular-ui-router.js',
-      bowerSrc + '/jquery/dist/jquery.js',
-      bowerSrc + '/lodash/dist/lodash.js',
-      bowerSrc + '/restangular/dist/restangular.js',
-      bowerSrc + '/angular-form-for/dist/form-for.js',
-      bowerSrc + '/ladda/js/spin.js',
-      bowerSrc + '/ladda/js/ladda.js',
-      bowerSrc + '/angular-ladda/src/angular-ladda.js',
-      bowerSrc + '/satellizer/satellizer.js',
-      bowerSrc + '/moment/moment.js',
-      bowerSrc + '/bootstrap-sass-official/assets/javascripts/bootstrap.js',
-      bowerSrc + '/angular-bootstrap/ui-bootstrap-tpls.js',
-      bowerSrc + '/angular-promise-cache/angular-promise-cache.js'
+      'angularjs/angular.js',
+      'angular-ui-router/release/angular-ui-router.js',
+      'jquery/dist/jquery.js',
+      'lodash/dist/lodash.js',
+      'restangular/dist/restangular.js',
+      'angular-form-for/dist/form-for.js',
+      'ladda/js/spin.js',
+      'ladda/js/ladda.js',
+      'angular-ladda/src/angular-ladda.js',
+      'satellizer/satellizer.js',
+      'moment/moment.js',
+      'bootstrap-sass-official/assets/javascripts/bootstrap.js',
+      'angular-bootstrap/ui-bootstrap-tpls.js',
+      'angular-promise-cache/angular-promise-cache.js'
     ],
     css: [
-      bowerSrc + '/font-awesome/css/font-awesome.css',
-      bowerSrc + '/ladda/dist/ladda.min.css',
+      'font-awesome/css/font-awesome.css',
+      'ladda/dist/ladda.min.css',
     ],
     scss: [
-      bowerSrc + '/bootstrap-sass-official/assets/stylesheets/**/*.scss'
+      'bootstrap-sass-official/assets/stylesheets/**/*.scss'
     ],
     fonts: [
       bowerSrc + '/font-awesome/fonts/*',
@@ -69,14 +70,15 @@ gulp.task('compile-scripts', function() {
     .pipe(browserSync.reload({stream:true}));
 });
 
-gulp.task('clean-css', function(cb) {
-  del([dev.sass.dest], cb);
+gulp.task('clean-css', function() {
+  return gulp.src(dev.sass.dest + '/*.css', {read:false})
+    .pipe(rimraf());
 })
 gulp.task('compile-scss', ['clean-css', 'compile-vendor'], function() {
   return gulp.src(dev.sass.src + '/**/*.scss')
     .pipe(plumber())
     .pipe(sass({
-      includePaths: [dev.bower.src]
+      includePaths: [dev.bower.src, dev.sass.src]
     }))
     .pipe(concat('main.css'))
     .pipe(gulp.dest(dev.sass.dest))
@@ -84,18 +86,20 @@ gulp.task('compile-scss', ['clean-css', 'compile-vendor'], function() {
 });
 
 gulp.task('compile-vendor', function() {
-  if (dev.vendor.css.length) {
-    gulp.src(dev.vendor.css)
+  var jsFilter = gulpFilter(dev.vendor.js);
+  var cssFilter = gulpFilter(dev.vendor.css);
+
+  return gulp.src(bowerSrc + '/**/*')
+    .pipe(cssFilter)
+      .pipe(order(dev.vendor.css))
       .pipe(concat('vendor.css'))
       .pipe(gulp.dest(dev.sass.dest))
-      .pipe(browserSync.reload({stream:true}));
-  }
-  if (dev.vendor.js.length) {
-    gulp.src(dev.vendor.js)
+      .pipe(cssFilter.restore())
+    .pipe(jsFilter)
+      .pipe(order(dev.vendor.js))
       .pipe(concat('vendor.js'))
       .pipe(gulp.dest(dev.scripts.dest))
-      .pipe(browserSync.reload({stream:true}));
-  }
+      .pipe(jsFilter.restore());
 });
 
 gulp.task('assemble-fonts', function() {

@@ -1,3 +1,14 @@
 #home {
+  ul {
+    text-align: center;
+  }
 
+  li {
+    margin-bottom: 0.5rem;
+  }
+
+  li > i {
+    margin-right: 0.5rem;
+    color: $colorGreen;
+  }
 }

@@ -90,10 +90,11 @@ app.post(api + '/find', function(req, res) {
   _.each(playDates, function(playDate) {
     _.each(dates, function(date) {
       if (playDate.date.isSame(date, 'day')) {
-        playDate.players = _.map(playDate.players, function(playerId) {
+        var playDateCopy = _.clone(playDate);
+        playDateCopy.players = _.map(playDateCopy.players, function(playerId) {
           return _.find(users, { id: playerId });
         })
-        matches.push(playDate);
+        matches.push(playDateCopy);
       }
     });
   });
