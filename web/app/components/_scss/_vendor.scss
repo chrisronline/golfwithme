@@ -1,0 +1,16 @@
+.angular-float-labels-label {
+  top: -5px;
+  color: #999;
+}
+.angular-float-labels-label.focused {
+  color: $colorGreen;
+}
+.angular-float-labels-label, .angular-float-labels-element {
+  font-family: 'Open Sans';
+}
+
+// Bootstrap overrides
+.form-control {
+  font-size: 16px;
+  height: 42px;
+}

@@ -3,7 +3,7 @@
 
   WebFont.load({
     google: {
-      families: ['Montserrat:400,700']
+      families: ['Montserrat:400,700', 'Open+Sans']
     }
   });
 })();

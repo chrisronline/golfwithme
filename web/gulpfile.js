@@ -19,9 +19,9 @@ var dev = {
   },
   vendor: {
     js: [
+      'jquery/dist/jquery.js',
       'angularjs/angular.js',
       'angular-ui-router/release/angular-ui-router.js',
-      'jquery/dist/jquery.js',
       'lodash/dist/lodash.js',
       'restangular/dist/restangular.js',
       'angular-form-for/dist/form-for.js',
@@ -32,11 +32,13 @@ var dev = {
       'moment/moment.js',
       'bootstrap-sass-official/assets/javascripts/bootstrap.js',
       'angular-bootstrap/ui-bootstrap-tpls.js',
-      'angular-promise-cache/angular-promise-cache.js'
+      'angular-promise-cache/angular-promise-cache.js',
+      'angular-float-labels/angular-float-labels.js'
     ],
     css: [
       'font-awesome/css/font-awesome.css',
       'ladda/dist/ladda.min.css',
+      'angular-float-labels/angular-float-labels.css'
     ],
     scss: [
       'bootstrap-sass-official/assets/stylesheets/**/*.scss'

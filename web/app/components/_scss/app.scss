@@ -1,10 +1,11 @@
 @import 'bootstrap';
 @import 'colors';
+@import 'vendor';
 
 @import 'home/home';
 
 html, body {
-  font: normal 18px/26px 'Montserrat', 'Arial', serif;
+  font: normal 18px/26px 'Open Sans', 'Arial', serif;
   color: $fontColor;
   word-wrap: break-word;
   word-break: break-word;
@@ -12,9 +13,18 @@ html, body {
   text-align: center;
 }
 
-header, footer, h1, h2 {
+header, footer, h1, h2, h3 {
   font-variant: small-caps;
   text-transform: uppercase;
+  font-family: 'Montserrat';
+}
+
+a {
+  color: $colorGreen;
+  &:hover {
+    text-decoration: underline;
+    color: $colorGreen;
+  }
 }
 
 ul {
@@ -33,6 +43,15 @@ header.header {
   }
 }
 
-.content {
+footer {
+  margin-top: 4rem;
+}
 
+.content > article {
+  header {
+    margin-bottom: 2rem;
+  }
+  h3, h4, h5 {
+    // text-align: left;
+  }
 }
