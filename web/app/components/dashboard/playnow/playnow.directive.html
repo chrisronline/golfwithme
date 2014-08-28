@@ -1,5 +1,40 @@
 <div class="play-now" ng-controller="PlayNowController as playNow">
-  <h3>When do you want to play?</h3>
+  <form class="form-inline">
+    <div class="row">
+      <div class="col-lg-4">
+        <h3>When</h3>
+        <input type="date" class="form-control" placeholder="Select a date"/>
+      </div>
+      <div class="col-lg-4">
+        <h3>Where</h3>
+        <!-- <input type="text" placeholder="Enter a city" class="form-control" ng-model="playNow.form.city" ng-change="playNow.lookupCity()"/> -->
+        <select selectize options="playNow.where" placeholder="Enter a city"></select>
+      </div>
+      <div class="col-lg-4">
+        <h3>How Many</h3>
+        <div class="btn-group" data-toggle="buttons">
+          <label class="btn btn-default btn-lg">
+            <input type="radio" name="options" id="howmany_1">1
+          </label>
+          <label class="btn btn-default btn-lg">
+            <input type="radio" name="options" id="howmany_2">2
+          </label>
+          <label class="btn btn-default btn-lg">
+            <input type="radio" name="options" id="howmany_3">3
+          </label>
+          <label class="btn btn-default btn-lg">
+            <input type="radio" name="options" id="howmany_4">4
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <button class="btn btn-lg btn-default">Find Now</button>
+      </div>
+    </div>
+  </form>
+  <!-- <h3>When do you want to play?</h3>
 
   <ul>
     <li ng-repeat="day in playNow.days" class="checkbox">
@@ -25,5 +60,5 @@
     </li>
   </ul>
 
-  <pre>{{playNow.matches|json}}</pre>
+  <pre>{{playNow.matches|json}}</pre> -->
 </div>

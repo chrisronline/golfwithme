@@ -1,5 +1,5 @@
 .angular-float-labels-label {
-  top: -5px;
+  top: -12px;
   color: #999;
 }
 .angular-float-labels-label.focused {
@@ -13,4 +13,13 @@
 .form-control {
   font-size: 16px;
   height: 42px;
+}
+
+// Selectize
+.selectize-input {
+  height: 42px;
+  padding-top: 10px;
+  input {
+    font-size: 16px;
+  }
 }

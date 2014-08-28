@@ -33,12 +33,14 @@ var dev = {
       'bootstrap-sass-official/assets/javascripts/bootstrap.js',
       'angular-bootstrap/ui-bootstrap-tpls.js',
       'angular-promise-cache/angular-promise-cache.js',
-      'angular-float-labels/angular-float-labels.js'
+      'angular-float-labels/angular-float-labels.js',
+      'selectize/dist/js/standalone/selectize.js'
     ],
     css: [
       'font-awesome/css/font-awesome.css',
       'ladda/dist/ladda.min.css',
-      'angular-float-labels/angular-float-labels.css'
+      'angular-float-labels/angular-float-labels.css',
+      'selectize/dist/css/selectize.bootstrap3.css'
     ],
     scss: [
       'bootstrap-sass-official/assets/stylesheets/**/*.scss'
