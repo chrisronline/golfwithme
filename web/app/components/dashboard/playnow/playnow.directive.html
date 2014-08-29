@@ -3,37 +3,73 @@
     <div class="row">
       <div class="col-lg-4">
         <h3>When</h3>
-        <input type="date" class="form-control" placeholder="Select a date"/>
+        <input type="date" class="form-control" ng-model="playNow.form.when" placeholder="Select a date"/>
       </div>
       <div class="col-lg-4">
         <h3>Where</h3>
-        <!-- <input type="text" placeholder="Enter a city" class="form-control" ng-model="playNow.form.city" ng-change="playNow.lookupCity()"/> -->
-        <select selectize options="playNow.where" placeholder="Enter a city"></select>
+        <select selectize
+          control="playNow.where.control"
+          options="playNow.where"
+          ng-model="playNow.form.where"
+          placeholder="Enter a city"></select>
       </div>
       <div class="col-lg-4">
         <h3>How Many</h3>
-        <div class="btn-group" data-toggle="buttons">
-          <label class="btn btn-default btn-lg">
-            <input type="radio" name="options" id="howmany_1">1
+        <div class="btn-group">
+          <label class="btn btn-default btn-lg" ng-class="{'active': playNow.form.howmany == 1}">
+            <input type="radio" name="options" id="howmany_1" ng-value="1" ng-model="playNow.form.howmany">1
           </label>
-          <label class="btn btn-default btn-lg">
-            <input type="radio" name="options" id="howmany_2">2
+          <label class="btn btn-default btn-lg" ng-class="{'active': playNow.form.howmany == 2}">
+            <input type="radio" name="options" id="howmany_2" ng-value="2" ng-model="playNow.form.howmany">2
           </label>
-          <label class="btn btn-default btn-lg">
-            <input type="radio" name="options" id="howmany_3">3
+          <label class="btn btn-default btn-lg" ng-class="{'active': playNow.form.howmany == 3}">
+            <input type="radio" name="options" id="howmany_3" ng-value="3" ng-model="playNow.form.howmany">3
           </label>
-          <label class="btn btn-default btn-lg">
-            <input type="radio" name="options" id="howmany_4">4
+          <label class="btn btn-default btn-lg" ng-class="{'active': playNow.form.howmany == 4}">
+            <input type="radio" name="options" id="howmany_4" ng-value="4" ng-model="playNow.form.howmany">4
           </label>
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-12">
-        <button class="btn btn-lg btn-default">Find Now</button>
+      <div class="col-lg-12 text-center">
+        <button class="btn btn-lg btn-default" ng-click="playNow.find()">Find Now</button>
       </div>
     </div>
   </form>
+
+  <ul>
+    <li ng-repeat="match in playNow.matches">
+      <article class="match panel panel-default">
+        <header class="panel-heading">
+          <h3 class="panel-title">
+            <i class="fa fa-calendar"></i>
+            <span>{{match._formattedDate}}</span>
+          </h3>
+          <h4 class="panel-title">
+            <i class="fa fa-location-arrow"></i>
+            <span>{{match.location}}</span>
+          </h4>
+        </header>
+        <ul class="player-list row">
+          <li ng-repeat="player in match.players" class="col-lg-3">
+            <img ng-src="{{player.profilePicture}}"/>
+            <ul class="player-info">
+              <li>{{player.firstName}} {{player.lastName}}</li>
+              <li>{{player.handicap}}</li>
+            </ul>
+          </li>
+          <li class="col-lg-3">
+            <i class="fa fa-user"></i>
+          </li>
+          <li class="col-lg-3">
+            <i class="fa fa-user"></i>
+          </li>
+        </ul>
+      </article>
+      <!-- <pre>{{match|json}}</pre> -->
+    </li>
+  </ul>
   <!-- <h3>When do you want to play?</h3>
 
   <ul>

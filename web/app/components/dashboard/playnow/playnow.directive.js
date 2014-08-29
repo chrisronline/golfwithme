@@ -1,11 +1,21 @@
 (function() {
   'use strict';
 
-  function PlayNowController($scope, GoogleService) {
+  function PlayNowController($scope, FindService, DATE_STRINGS) {
     var ctrl = this;
 
-    ctrl.form = {};
+    function formatCityForSelectize(city) {
+      return {
+        id: city.formatted_address,
+        name: city.formatted_address
+      };
+    }
 
+    ctrl.matches = [];
+    ctrl.form = {
+      when: moment().format(DATE_STRINGS.WIRE),
+      howmany: 2
+    };
     ctrl.where = {
       valueField: 'id',
       labelField: 'name',
@@ -14,19 +24,40 @@
       create: false,
       load: function(query, callback) {
         if (!query.length) return callback();
-        GoogleService.lookupCity(query)
+        FindService.findCity(query)
           .then(function(cities) {
-            var idx=1;
-            var results = _.map(cities.results, function(result) {
-              return {
-                id: idx++,
-                name: result.formatted_address
-              }
-            });
+            var results = _.map(cities.results, formatCityForSelectize);
             callback(results);
           })
       }
     };
+    ctrl.find = function() {
+      FindService.find(ctrl.form)
+        .then(function(matches) {
+          ctrl.matches = _.map(matches, function(match) {
+            match._formattedDate = moment(match.date).format(DATE_STRINGS.WIRE);
+            return match;
+          });
+        });
+    };
+
+    function init() {
+      ctrl.where.control.load(function(callback) {
+        FindService.findUserCity()
+          .then(function(city) {
+            var formatted = formatCityForSelectize(city);
+            ctrl.form.where = formatted.id;
+            callback([formatted]);
+          })
+      });
+    }
+
+    var unbind = $scope.$watch(function() { return ctrl.where.control; }, function(newControl) {
+      if (newControl) {
+        init();
+        unbind();
+      }
+    });
 
     // var daysToShow = 7;
     // var now = moment();

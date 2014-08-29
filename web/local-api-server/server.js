@@ -53,8 +53,8 @@ var locations = [
 var playDates = [
   {
     id: 1,
-    date: moment.utc('2014-08-28T8:00:00-04:00', 'YYYY-MM-DDTHH:mm:ssZ'),
-    location: 1,
+    date: moment.utc('2014-08-29T8:00:00-04:00', 'YYYY-MM-DDTHH:mm:ssZ'),
+    location: 'Shadow Lake Executive Course',
     players: [1, 2],
     maxPlayers: 4
   }
@@ -80,28 +80,25 @@ var users = [
 var api = '/api/v1';
 
 app.post(api + '/find', function(req, res) {
-  var dates = _.map(req.body.dates, function(date) {
-    var utc = moment(date).utc();
-    // console.log(moment(date).format());
-    return utc;
-  });
+  var data = _.mapValues(req.body, function(value, key) {
+    if (key === 'when') {
+      return moment(value);
+    }
+    return value;
+  })
 
   var matches = [];
   _.each(playDates, function(playDate) {
-    _.each(dates, function(date) {
-      if (playDate.date.isSame(date, 'day')) {
-        var playDateCopy = _.clone(playDate);
-        playDateCopy.players = _.map(playDateCopy.players, function(playerId) {
-          return _.find(users, { id: playerId });
-        })
-        matches.push(playDateCopy);
-      }
-    });
+    if (playDate.date.isSame(data.when, 'day')) {
+      var copy = _.clone(playDate);
+      copy.players = _.map(copy.players, function(playerId) {
+        return _.find(users, { id: playerId });
+      });
+      matches.push(copy);
+    }
   });
 
-  res.send({
-    matches: matches
-  });
+  res.send({data:{matches: matches}});
 });
 
 app.get(api + '/account/:accountId', function(req, res) {

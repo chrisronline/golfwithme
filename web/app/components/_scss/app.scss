@@ -1,4 +1,5 @@
 @import 'bootstrap';
+@import 'fontawesome';
 @import 'colors';
 @import 'vendor';
 
@@ -10,13 +11,13 @@ html, body {
   word-wrap: break-word;
   word-break: break-word;
   background: $backgroundColor;
-  text-align: center;
 }
 
 header, footer, h1, h2, h3 {
   font-variant: small-caps;
   text-transform: uppercase;
   font-family: 'Montserrat';
+  text-align: center;
 }
 
 a {
@@ -33,9 +34,11 @@ ul {
 
 header.header {
   padding: 2rem;
+
   > h1 > span {
     color: $colorGreen;
   }
+
   > h2 {
     margin-top: 0.5rem;
     font-size: 1rem;
@@ -48,10 +51,12 @@ footer {
 }
 
 .content > article {
+
   header {
     margin-bottom: 2rem;
   }
+
   h3, h4, h5 {
-    // text-align: left;
+    text-align: left;
   }
 }
