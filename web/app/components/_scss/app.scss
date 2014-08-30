@@ -4,6 +4,7 @@
 @import 'vendor';
 
 @import 'home/home';
+@import 'dashboard/playnow/playnow.directive';
 
 html, body {
   font: normal 18px/26px 'Open Sans', 'Arial', serif;
@@ -26,6 +27,16 @@ a {
     text-decoration: underline;
     color: $colorGreen;
   }
+}
+
+input[type="checkbox"] + span {
+  position: relative;
+  top: -3px;
+}
+
+//http://stackoverflow.com/questions/13311574/how-to-enable-bootstrap-tooltip-on-disabled-button
+.tooltip-wrapper {
+  display: inline-block;
 }
 
 ul {
@@ -52,7 +63,7 @@ footer {
 
 .content > article {
 
-  header {
+  > header {
     margin-bottom: 2rem;
   }
 

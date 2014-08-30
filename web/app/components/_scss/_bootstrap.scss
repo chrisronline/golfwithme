@@ -1,8 +1,12 @@
 @import 'bootstrap-sass-official/assets/stylesheets/bootstrap/variables';
 
 $btn-default-bg: #222;
-$btn-default-border: #444;
+$btn-default-border: #222;
 $btn-default-color: white;
+
+$btn-primary-bg: green;
+$btn-primary-border: green;
+$btn-primary-color: white;
 
 @import 'bootstrap-sass-official/assets/stylesheets/bootstrap/mixins';
 @import 'bootstrap-sass-official/assets/stylesheets/bootstrap/normalize';

@@ -75,7 +75,7 @@ gulp.task('clean-css', function() {
     .pipe(rimraf());
 })
 gulp.task('compile-scss', ['clean-css', 'compile-vendor'], function() {
-  return gulp.src(dev.sass.src + '/**/*.scss')
+  return gulp.src(dev.sass.src + '/_scss/app.scss')
     .pipe(plumber())
     .pipe(sass({
       includePaths: [dev.bower.src, dev.sass.src]

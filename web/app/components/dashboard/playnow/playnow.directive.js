@@ -35,7 +35,13 @@
       FindService.find(ctrl.form)
         .then(function(matches) {
           ctrl.matches = _.map(matches, function(match) {
-            match._formattedDate = moment(match.date).format(DATE_STRINGS.WIRE);
+            match._formattedDate = moment(match.date).format(DATE_STRINGS.SHORTHAND);
+            match._empties = _.times(match.maxPlayers - match.players.length, _.identity);
+            if (match.playRequest) {
+              match.playRequest = _.extend(match.playRequest, {
+                _formattedDate: moment(match.playRequest.date).format(DATE_STRINGS.SHORTHAND)
+              });
+            }
             return match;
           });
         });

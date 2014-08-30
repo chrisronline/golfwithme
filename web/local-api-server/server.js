@@ -50,13 +50,29 @@ var locations = [
   }
 ];
 
+var playRequests = [
+  {
+    id: 1,
+    player: 1,
+    date: moment().utc()
+  }
+];
+
 var playDates = [
   {
     id: 1,
-    date: moment.utc('2014-08-29T8:00:00-04:00', 'YYYY-MM-DDTHH:mm:ssZ'),
+    date: moment().utc(),
     location: 'Shadow Lake Executive Course',
     players: [1, 2],
-    maxPlayers: 4
+    maxPlayers: 4,
+    playRequests: [1]
+  },
+  {
+    id: 2,
+    date: moment().utc(),
+    location: 'Pebble Beach',
+    players: [3,4],
+    maxPlayers: 3
   }
 ];
 
@@ -66,7 +82,7 @@ var users = [
     firstName: 'Chris',
     lastName: 'Roberson',
     handicap: 12,
-    profilePicture: 'https://scontent-a-lga.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/10525768_10100948287381525_6706704909085261629_n.jpg?oh=3d1e539989b3d650e1d9d7d63a19af4c&oe=546F06C4'
+    profilePicture: 'https://fbcdn-sphotos-h-a.akamaihd.net/hphotos-ak-xfa1/v/t1.0-9/310765_842296633875_1725464266_n.jpg?oh=43013037aa43bb1146d08f63fd67a3a1&oe=547501A0&__gda__=1416353640_eb9f9e25f3659a369c61c6d579104ad7'
   },
   {
     id: 2,
@@ -74,6 +90,20 @@ var users = [
     lastName: 'Gimmy',
     handicap: 18,
     profilePicture: 'https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xaf1/t1.0-9/426813_10100839529433143_1443819990_n.jpg'
+  },
+  {
+    id: 3,
+    firstName: 'Rory',
+    lastName: 'McIlroy',
+    handicap: 0,
+    profilePicture: 'http://blogs.kansas.com/lutz/files/2014/08/McIlroy.jpg'
+  },
+  {
+    id: 4,
+    firstName: 'Tiger',
+    lastName: 'Woods',
+    handicap: 0,
+    profilePicture: 'http://www.golfpunkmag.com/wp-content/uploads/2014/05/tiger-woods-ea-sports.jpg'
   }
 ];
 
@@ -93,6 +123,9 @@ app.post(api + '/find', function(req, res) {
       var copy = _.clone(playDate);
       copy.players = _.map(copy.players, function(playerId) {
         return _.find(users, { id: playerId });
+      });
+      _.each(copy.playRequests, function(playRequestId) {
+        copy.playRequest = _.find(playRequests, { id: playRequestId });
       });
       matches.push(copy);
     }

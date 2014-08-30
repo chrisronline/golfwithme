@@ -3,7 +3,8 @@
 
   var dateStrings = {
     ISO: 'YYYY-MM-DDTHH:mm:ssZ',
-    WIRE: 'YYYY-MM-DD'
+    WIRE: 'YYYY-MM-DD',
+    SHORTHAND: 'MM/DD/YYYY'
   };
 
   angular.module('golfWithMe')
