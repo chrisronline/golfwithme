@@ -1,8 +1,20 @@
-.dashboard {
-  img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50px;
+#dashboard {
+  .list-group-item:hover {
+    background-color: $color-lightbg--darker;
+    cursor: pointer;
   }
-  ul { list-style: none; }
+  .dashboard-playdate-img {
+    margin-right: 1rem;
+  }
+  .playdate-location,
+  .playdate-date,
+  .playdate-players,
+  .player {
+    display: inline-block;
+  }
+  .badge {
+    position: absolute;
+    top: 75px;
+    left: 44%;
+  }
 }

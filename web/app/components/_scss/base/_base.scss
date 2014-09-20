@@ -1,0 +1,20 @@
+html, body {
+  font: normal 18px/26px 'Open Sans', 'Arial', serif;
+  word-wrap: break-word;
+  word-break: break-word;
+  color: $color-mainfont;
+  background: $color-mainbg;
+}
+
+header, footer, h1, h2, h3 {
+  font-variant: small-caps;
+  text-transform: uppercase;
+  font-family: 'Montserrat';
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

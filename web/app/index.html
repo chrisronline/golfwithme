@@ -8,14 +8,28 @@
     <link rel="stylesheet" href="css/vendor.css"/>
     <link rel="stylesheet" href="css/main.css">
   </head>
-  <body>
-    <div class="container" ng-app="golfWithMe">
-      <header class="header">
+  <body ng-app="golfWithMe" ng-class="{'authed': AUTH.isAuthed, 'not-authed': !AUTH.isAuthed}">
+    <div class="container">
+      <header class="app-header" ng-if="!AUTH.isAuthed">
         <h1>golfwith<span>.me</span></h1>
         <h2>Search. Connect. Play</h2>
       </header>
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2">
+      <header class="app-header" ng-if="AUTH.isAuthed">
+        <nav ng-if="AUTH.isAuthed">
+          <ul class="pull-left">
+            <li class="logo"><a ui-sref="dashboard">GWM</a></li>
+            <li>
+              <a ui-sref="find">Find</a>
+            </li>
+            <li><a ui-sref="post">Post</a></li>
+          </ul>
+          <ul class="pull-right">
+            <li><a ui-sref="account">Hi, Chris Roberson</a></li>
+          </ul>
+        </nav>
+      </header>
+      <div class="row wrapper">
+        <div ng-class="{'col-lg-8 col-lg-offset-2': !AUTH.isAuthed, 'col-lg-12': AUTH.isAuthed}">
           <div class="content" ui-view></div>
         </div>
       </div>
@@ -24,6 +38,7 @@
       </footer>
     </div>
 
+    <!-- todo: async load -->
     <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMwe5Jd_EU6VVWGZFfX5F-87aTljLvlKM"></script>
     <script src="js/vendor.js"></script>

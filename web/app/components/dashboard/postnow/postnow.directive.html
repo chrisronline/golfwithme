@@ -1,0 +1,33 @@
+<div class="post-now" ng-controller="PostNowController as postNow">
+  <form class="form-inline">
+    <div class="row">
+      <div class="col-lg-6">
+        <!-- <h3>When</h3> -->
+        <input type="date" class="form-control" ng-model="postNow.form.when" placeholder="Select a date"/>
+      </div>
+      <div class="col-lg-6">
+        <!-- <h3>Where</h3> -->
+        <select selectize
+          control="postNow.where.control"
+          options="postNow.where"
+          ng-model="postNow.form.where"
+          placeholder="Enter a city"></select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <!-- <h3>Who</h3> -->
+        <select selectize
+          control="postNow.who.control"
+          options="postNow.who"
+          ng-model="postNow.form.who"
+          placeholder="Select friends"></select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <button class="btn btn-lg btn-primary" ng-click="postNow.post()">Post Now</button>
+      </div>
+    </div>
+  </form>
+</div>

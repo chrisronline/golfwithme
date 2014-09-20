@@ -47,6 +47,14 @@ var locations = [
         red: 275
       }
     ]
+  },
+  {
+    id: 2,
+    name: 'Pebble Beach',
+    holes: 18,
+    yardage: 7500,
+    scorecard: [
+    ]
   }
 ];
 
@@ -54,25 +62,75 @@ var playRequests = [
   {
     id: 1,
     player: 1,
-    date: moment().utc()
+    date: moment().add(_.random(0, 100), 'days'),
+    message: 'Can I join please bros?'
+  }
+];
+
+var events = [
+  {
+    id: 1,
+    ns: 'PLAYDATE',
+    type: 'CREATE',
+    date: moment().add(_.random(0, 100), 'days'),
+    message: null,
+    userId: 1
+  },
+  {
+    id: 2,
+    ns: 'PLAYDATE',
+    type: 'REQUEST_JOIN',
+    date: moment().add(_.random(0, 100), 'days'),
+    message: 'I want to join!',
+    userId: 2
+  },
+  {
+    id: 3,
+    ns: 'PLAYDATE',
+    type: 'REQUEST_ACCEPT',
+    date: moment().add(_.random(0, 100), 'days'),
+    message: 'Sure man!',
+    userId: 1,
+    acceptedUserId: 2
+  }
+];
+
+var messages = [
+  {
+    id: 1,
+    userId: 1,
+    message: 'Hey man - you cool with this?'
+  },
+  {
+    id: 2,
+    userId: 3,
+    message: 'You suck Tiger. You are like 40'
+  },
+  {
+    id: 3,
+    userId: 4,
+    message: 'Yup you are right :('
   }
 ];
 
 var playDates = [
   {
     id: 1,
-    date: moment().utc(),
-    location: 'Shadow Lake Executive Course',
+    date: moment().add(_.random(0, 100), 'days'),
+    location: 1,
     players: [1, 2],
     maxPlayers: 4,
-    playRequests: [1]
+    playRequests: [1],
+    events: [1,2,3],
+    messages: [1]
   },
   {
     id: 2,
-    date: moment().utc(),
-    location: 'Pebble Beach',
-    players: [3,4],
-    maxPlayers: 3
+    date: moment().add(_.random(0, 100), 'days'),
+    location: 2,
+    players: [3, 4],
+    maxPlayers: 3,
+    messages: [2,3]
   }
 ];
 
@@ -107,8 +165,34 @@ var users = [
   }
 ];
 
-var api = '/api/v1';
+var loggedInUserId = 1;
 
+function formatPlayDate(playDate) {
+  var copy = _.clone(playDate);
+
+  copy.players = _.map(copy.players, function(playerId) {
+    return _.find(users, { id: playerId });
+  });
+  copy.playRequests = _.map(copy.playRequests, function(playRequestId) {
+    return _.find(playRequests, { id: playRequestId });
+  });
+  copy.location = _.find(locations, { id: copy.location });
+  copy.events = _.map(copy.events, function(eventId) {
+    var event = _.find(events, { id: eventId });
+    event.user = _.find(users, { id: event.userId });
+    event.acceptedUser = _.find(users, { id: event.acceptedUserId });
+    return event;
+  });
+  copy.messages = _.map(copy.messages, function(messageId) {
+    var message = _.find(messages, { id: messageId });
+    message.user = _.find(users, { id: message.userId });
+    return message;
+  });
+
+  return copy;
+}
+
+var api = '/api/v1';
 app.post(api + '/find', function(req, res) {
   var data = _.mapValues(req.body, function(value, key) {
     if (key === 'when') {
@@ -119,19 +203,28 @@ app.post(api + '/find', function(req, res) {
 
   var matches = [];
   _.each(playDates, function(playDate) {
+    console.log('play date', playDate.date.format());
+    console.log('when', data.when.format());
     if (playDate.date.isSame(data.when, 'day')) {
-      var copy = _.clone(playDate);
-      copy.players = _.map(copy.players, function(playerId) {
-        return _.find(users, { id: playerId });
-      });
-      _.each(copy.playRequests, function(playRequestId) {
-        copy.playRequest = _.find(playRequests, { id: playRequestId });
-      });
-      matches.push(copy);
+      matches.push(formatPlayDate(playDate));
     }
   });
 
   res.send({data:{matches: matches}});
+});
+
+app.get(api + '/schedule', function(req, res) {
+  var now = moment().subtract(1, 'hour');
+  var schedule = [];
+  _.each(playDates, function(playDate) {
+    schedule.push(formatPlayDate(playDate));
+  });
+  res.send(schedule);
+});
+
+app.get(api + '/playdate/:id', function(req, res) {
+  var playDate = _.find(playDates, {id:parseInt(req.params.id)});
+  res.send(formatPlayDate(playDate));
 });
 
 app.get(api + '/account/:accountId', function(req, res) {

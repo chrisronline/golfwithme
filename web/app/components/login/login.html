@@ -3,6 +3,12 @@
     <h2>Login</h2>
   </header>
 
+  <div class="row" ng-if="login.redirect">
+    <div class="col-lg-12 text-center">
+      <p class="alert alert-danger">You must log into view that page</p>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-lg-6 col-lg-offset-3">
       <form class="form-horizontal" role="form">

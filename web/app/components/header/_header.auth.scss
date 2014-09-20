@@ -1,0 +1,31 @@
+.authed .app-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: $color-mainbg;
+  width: 100%;
+  padding: 1rem;
+  text-align: left;
+}
+.authed .app-header img {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  margin-right: 1rem;
+}
+.authed .app-header li {
+  display: inline-block;
+  margin-right: 1rem;
+}
+.authed .app-header a {
+  color: #fff;
+}
+.authed .app-header a:hover {
+  color: $color-links;
+  text-decoration: none;
+}
+.authed .app-header .logo {
+  font-size: 1.5rem;
+  position: relative;
+  top: 0.1rem;
+}

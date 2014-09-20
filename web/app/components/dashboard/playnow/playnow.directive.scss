@@ -19,13 +19,14 @@
   }
 
   .match {
-    background: $gray-lighter;
-    border-radius: 6px;
-    border: solid 2px $colorGreen;
-    color: $gray-darker;
-    padding: 1rem;
-    position: relative;
-    margin-bottom: 2rem;
+    // background: $backgroundColor;
+    // border-radius: 6px;
+    // border: solid 2px $nav-tabs-border-color;
+    // color: $gray-darker;
+    // padding: 1rem;
+    // position: relative;
+    // margin-bottom: 2rem;
+    padding-top: 1rem;
 
     .row {
       margin-bottom: 0;
@@ -50,8 +51,8 @@
 
     .badge {
       position: absolute;
-      bottom: 2.1rem;
-      right: 0.8rem;
+      top: 75px;
+      left: 44%;
     }
   }
 

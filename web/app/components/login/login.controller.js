@@ -4,41 +4,19 @@
   function LoginConfig($stateProvider) {
     $stateProvider
       .state('login', {
-        url: '/login',
+        url: '/login?redirect',
         templateUrl: 'components/login/login.html'
       });
   }
 
-  function LoginForm(LoginService) {
-    return {
-      validationRules: {
-        email: { required: true },
-        password: { required: true }
-      },
-      submit: function(data) {
-        return LoginService.login(data);
-      }
-    };
-  }
-
-  function LoginCtrl($scope, LoginService) {
+  function LoginCtrl($scope, LoginService, $stateParams) {
     var loginCtrl = this;
 
     loginCtrl.user = {};
-    // loginCtrl.login = function() {
-    //   LoginService.login().then(
-    //     function() {
-    //       console.log(1);
-    //     },
-    //     function() {
-    //       console.log(2);
-    //     }
-    //   )
-    // };
+    loginCtrl.redirect = $stateParams.redirect;
   }
 
   angular.module('golfWithMe')
     .config(LoginConfig)
-    .factory('LoginForm', LoginForm)
     .controller('LoginCtrl', LoginCtrl);
 })();

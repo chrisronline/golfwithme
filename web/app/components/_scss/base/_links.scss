@@ -1,0 +1,8 @@
+a {
+  color: $color-links;
+  &:hover {
+    text-decoration: underline;
+    color: $color-links;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,10 @@
+.angular-float-labels-label {
+  top: -6px;
+  color: #999;
+}
+.angular-float-labels-label.focused {
+  color: $color-links;
+}
+.angular-float-labels-label, .angular-float-labels-element {
+  font-family: 'Open Sans';
+}

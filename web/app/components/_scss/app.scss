@@ -1,73 +1,26 @@
-@import 'bootstrap';
-@import 'fontawesome';
-@import 'colors';
-@import 'vendor';
+@import 'colors/colors';
 
+@import 'vendor/bootstrap-variables';
+@import 'vendor/bootstrap';
+@import 'vendor/bootstrap-overrides';
+@import 'vendor/angular-float-labels';
+@import 'vendor/fontawesome';
+@import 'vendor/selectize';
+
+@import 'base/base';
+@import 'base/base.auth';
+@import 'base/forms';
+@import 'base/links';
+@import 'base/images';
+@import 'base/content';
+@import 'base/content.auth';
+
+
+// Specific components
+@import 'header/header';
+@import 'header/header.auth';
+@import 'footer/footer';
 @import 'home/home';
+@import 'dashboard/dashboard';
 @import 'dashboard/playnow/playnow.directive';
-
-html, body {
-  font: normal 18px/26px 'Open Sans', 'Arial', serif;
-  color: $fontColor;
-  word-wrap: break-word;
-  word-break: break-word;
-  background: $backgroundColor;
-}
-
-header, footer, h1, h2, h3 {
-  font-variant: small-caps;
-  text-transform: uppercase;
-  font-family: 'Montserrat';
-  text-align: center;
-}
-
-a {
-  color: $colorGreen;
-  &:hover {
-    text-decoration: underline;
-    color: $colorGreen;
-  }
-}
-
-input[type="checkbox"] + span {
-  position: relative;
-  top: -3px;
-}
-
-//http://stackoverflow.com/questions/13311574/how-to-enable-bootstrap-tooltip-on-disabled-button
-.tooltip-wrapper {
-  display: inline-block;
-}
-
-ul {
-  list-style: none;
-}
-
-header.header {
-  padding: 2rem;
-
-  > h1 > span {
-    color: $colorGreen;
-  }
-
-  > h2 {
-    margin-top: 0.5rem;
-    font-size: 1rem;
-    color: $fontDarkColor;
-  }
-}
-
-footer {
-  margin-top: 4rem;
-}
-
-.content > article {
-
-  > header {
-    margin-bottom: 2rem;
-  }
-
-  h3, h4, h5 {
-    text-align: left;
-  }
-}
+@import 'playdate/playdate';

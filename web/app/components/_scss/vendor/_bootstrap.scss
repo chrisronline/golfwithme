@@ -1,13 +1,5 @@
 @import 'bootstrap-sass-official/assets/stylesheets/bootstrap/variables';
 
-$btn-default-bg: #222;
-$btn-default-border: #222;
-$btn-default-color: white;
-
-$btn-primary-bg: green;
-$btn-primary-border: green;
-$btn-primary-color: white;
-
 @import 'bootstrap-sass-official/assets/stylesheets/bootstrap/mixins';
 @import 'bootstrap-sass-official/assets/stylesheets/bootstrap/normalize';
 @import 'bootstrap-sass-official/assets/stylesheets/bootstrap/print';
@@ -50,7 +42,3 @@ $btn-primary-color: white;
 
 // Utility classes
 @import 'bootstrap-sass-official/assets/stylesheets/bootstrap/utilities';
-@import 'bootstrap-sass-official/assets/stylesheets/bootstrap/responsive-utilities';
-
-// .row { border: solid 1px blue; }
-// .row div[class*="col"] { border: solid 1px orange;}

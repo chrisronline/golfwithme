@@ -40,20 +40,13 @@
 
   <!-- <pre>{{playNow.matches|json}}</pre> -->
 
-  <ul>
-    <li ng-repeat="match in playNow.matches" class="match">
+  <ul class="list-group">
+    <li ng-repeat="match in playNow.matches" class="list-group-item match">
       <div class="row">
         <div class="col-lg-3 text-center">
           <h3>{{match._formattedDate}}</h3>
-          <h4>{{match.location}}</h4>
-          <button class="btn btn-lg btn-primary" ng-if="!match.playRequest">
-            Ask to Join
-          </button>
-          <div class="tooltip-wrapper" data-toggle="tooltip" data-placement="top" data-title="Asked on {{match.playRequest._formattedDate}}">
-            <button class="btn btn-lg btn-default" ng-if="match.playRequest" disabled>
-              Asked
-            </button>
-          </div>
+          <h4>{{match._formattedTime}}</h4>
+          <h5>{{match.location}}</h5>
         </div>
         <div class="col-lg-9">
           <div class="row">
@@ -66,7 +59,24 @@
               <i class="fa fa-user"></i>
             </div>
           </div>
-          <!-- <textarea placeholder="Enter a message to the group"></textarea> -->
+        </div>
+      </div>
+      <div class="row" ng-if="!match.playRequeset">
+        <div class="col-lg-9 col-lg-offset-3">
+<!--           <div ng-if="match.playRequest">
+            <p class="well">{{match.playRequest.message}}</p>
+            <div class="tooltip-wrapper" data-toggle="tooltip" data-placement="top" data-title="Asked on {{match.playRequest._formattedDate}}">
+              <button class="btn btn-lg btn-default" disabled>
+                Asked
+              </button>
+            </div>
+          </div> -->
+          <div ng-if="!match.playRequest">
+            <textarea placeholder="Enter a message to the group"></textarea>
+            <button class="btn btn-lg btn-primary" ng-if="!match.playRequest" ng-click="playNow.join(match.id)">
+              Ask to Join
+            </button>
+          </div>
         </div>
       </div>
     </li>

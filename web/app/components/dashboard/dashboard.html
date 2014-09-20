@@ -1,21 +1,29 @@
-<article id="dashboard" ng-controller="DashboardCtrl as dashboard">
-  <h2>Dashboard</h2>
-
-  <play-now></play-now>
-
-  <!-- <pre>{{dashboard.matches|json}}</pre>
-  <ul>
-    <li ng-repeat="user in dashboard.users">
-      <div class="row">
-        <div class="col-lg-2">
-          <img ng-src="{{user.profilePicture}}"/>
-        </div>
-        <div class="col-lg-10">
-          <h2>{{user.firstName}} {{user.lastName}}</h2>
-          <h3>Handicap: {{user.handicap}}</h3>
-          <button class="btn btn-primary">Play!</button>
-        </div>
-      </div>
-    </li>
-  </ul> -->
-</div>
+<section id="dashboard">
+  <!-- <play-now></play-now> -->
+  <div class="row">
+    <div class="col-lg-12">
+      <header class="content-header">
+        <h2>Schedule</h2>
+      </header>
+      <ul class="list-group">
+        <li ng-repeat="playdate in dashboard.schedule" class="list-group-item" ui-sref="playdate({id:playdate.id})">
+          <div class="row">
+            <div class="col-lg-2">
+              <h5 class="playdate-location">{{playdate.location.name}}</h5>
+            </div>
+            <div class="col-lg-8">
+              <ul class="playdate-players">
+                <li ng-repeat="player in playdate.players" class="player">
+                  <img ng-src="{{player.profilePicture}}" class="playdate-img img-small--rounded" />
+                </li>
+              </ul>
+            </div>
+            <div class="col-lg-2">
+              <h5 class="playdate-date">{{playdate._formattedDate}}</h5>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
