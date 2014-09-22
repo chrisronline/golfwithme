@@ -1,17 +1,34 @@
 (function() {
   'use strict';
 
-  function AccountService($q, Restangular, promiseCache) {
+  function AccountService($q, RestService, promiseCache) {
     var service = {};
 
     service.get = function(accountId) {
       return promiseCache({
         key: 'account_' + accountId,
         args: [accountId],
+        ttl: 60*60*24*1000,
+        localStorageEnabled: true,
         promise: function(accountId) {
-          return Restangular.one('account', accountId).get();
+          return RestService.get('account/' + accountId)
+            .then(service.formatAccount);
         }
       });
+    };
+
+    service.fillAccount = function(playerId) {
+      var player = {id:playerId};
+      service.get(player.id)
+        .then(function(_player) {
+          player = _.extend(player, _player);
+        });
+      return player;
+    };
+
+    service.formatAccount = function(account) {
+      account._displayName = account.firstName + ' ' + account.lastName;
+      return account;
     };
 
     return service;

@@ -1,13 +1,13 @@
 (function() {
   'use strict';
 
-  function ScheduleService(RestService, PlaydateService) {
+  function ScheduleService(RestService, OutingService) {
     var service = {};
 
     service.get = function() {
       return RestService.get('schedule')
         .then(function(schedule) {
-          return _.map(schedule, PlaydateService.formatPlaydate);
+          return _.map(schedule, OutingService.formatOuting);
         })
     };
 

@@ -58,19 +58,31 @@ var locations = [
   }
 ];
 
-var playRequests = [
+var inboundRequests = [
   {
     id: 1,
+    outingId: 1,
     player: 1,
     date: moment().add(_.random(0, 100), 'days'),
     message: 'Can I join please bros?'
   }
 ];
 
+var outboundRequests = [
+  {
+    id: 1,
+    outingId: 1,
+    from: 1,
+    to: 2,
+    date: moment().add(_.random(0, 100), 'days'),
+    message: 'Wanna play bro?'
+  }
+];
+
 var events = [
   {
     id: 1,
-    ns: 'PLAYDATE',
+    ns: 'outing',
     type: 'CREATE',
     date: moment().add(_.random(0, 100), 'days'),
     message: null,
@@ -78,7 +90,7 @@ var events = [
   },
   {
     id: 2,
-    ns: 'PLAYDATE',
+    ns: 'outing',
     type: 'REQUEST_JOIN',
     date: moment().add(_.random(0, 100), 'days'),
     message: 'I want to join!',
@@ -86,7 +98,7 @@ var events = [
   },
   {
     id: 3,
-    ns: 'PLAYDATE',
+    ns: 'outing',
     type: 'REQUEST_ACCEPT',
     date: moment().add(_.random(0, 100), 'days'),
     message: 'Sure man!',
@@ -113,14 +125,15 @@ var messages = [
   }
 ];
 
-var playDates = [
+var outings = [
   {
     id: 1,
     date: moment().add(_.random(0, 100), 'days'),
     location: 1,
     players: [1, 2],
     maxPlayers: 4,
-    playRequests: [1],
+    inboundRequests: [],
+    outboundRequests: [],
     events: [1,2,3],
     messages: [1]
   },
@@ -167,69 +180,90 @@ var users = [
 
 var loggedInUserId = 1;
 
-function formatPlayDate(playDate) {
-  var copy = _.clone(playDate);
+function formatOuting(outing) {
+  var copy = _.clone(outing);
 
-  copy.players = _.map(copy.players, function(playerId) {
-    return _.find(users, { id: playerId });
+  copy.outboundRequests = _.map(copy.outboundRequests, function(id) {
+    return _.find(outboundRequests, { id: id });
   });
-  copy.playRequests = _.map(copy.playRequests, function(playRequestId) {
-    return _.find(playRequests, { id: playRequestId });
+  copy.inboundRequests = _.map(copy.inboundRequests, function(id) {
+    return _.find(inboundRequests, { id: id });
   });
   copy.location = _.find(locations, { id: copy.location });
   copy.events = _.map(copy.events, function(eventId) {
-    var event = _.find(events, { id: eventId });
-    event.user = _.find(users, { id: event.userId });
-    event.acceptedUser = _.find(users, { id: event.acceptedUserId });
-    return event;
+    return _.find(events, { id: eventId });
   });
   copy.messages = _.map(copy.messages, function(messageId) {
-    var message = _.find(messages, { id: messageId });
-    message.user = _.find(users, { id: message.userId });
-    return message;
+    return _.find(messages, { id: messageId });
   });
 
   return copy;
 }
 
 var api = '/api/v1';
-app.post(api + '/find', function(req, res) {
-  var data = _.mapValues(req.body, function(value, key) {
-    if (key === 'when') {
-      return moment(value);
-    }
-    return value;
-  })
+// app.post(api + '/find', function(req, res) {
+//   var data = _.mapValues(req.body, function(value, key) {
+//     if (key === 'when') {
+//       return moment(value);
+//     }
+//     return value;
+//   })
 
-  var matches = [];
-  _.each(playDates, function(playDate) {
-    console.log('play date', playDate.date.format());
-    console.log('when', data.when.format());
-    if (playDate.date.isSame(data.when, 'day')) {
-      matches.push(formatPlayDate(playDate));
-    }
-  });
+//   var matches = [];
+//   _.each(outings, function(outing) {
+//     console.log('outing date', outing.date.format());
+//     console.log('when', data.when.format());
+//     if (outing.date.isSame(data.when, 'day')) {
+//       matches.push(formatouting(outing));
+//     }
+//   });
 
-  res.send({data:{matches: matches}});
-});
+//   res.send({data:{matches: matches}});
+// });
 
 app.get(api + '/schedule', function(req, res) {
   var now = moment().subtract(1, 'hour');
   var schedule = [];
-  _.each(playDates, function(playDate) {
-    schedule.push(formatPlayDate(playDate));
+  _.each(outings, function(outing) {
+    schedule.push(formatOuting(outing));
   });
   res.send(schedule);
 });
 
-app.get(api + '/playdate/:id', function(req, res) {
-  var playDate = _.find(playDates, {id:parseInt(req.params.id)});
-  res.send(formatPlayDate(playDate));
+app.get(api + '/outing/:id', function(req, res) {
+  var outing = _.find(outings, {id:parseInt(req.params.id)});
+  res.send(formatOuting(outing));
+});
+app.post(api + '/outing/invite', function(req, res) {
+  var invited = parseInt(req.body.to);
+  var outing = _.find(outings, {id: req.body.outingId });
+  var request = {
+    id: 2,
+    outingId: parseInt(req.body.outingId),
+    from: 1,
+    to: invited,
+    date: moment().add(_.random(0, 100), 'days'),
+    message: 'Wanna play bro?'
+  };
+  outboundRequests.push(request);
+  outing.outboundRequests.push(request.id);
+  res.send(formatOuting(outing));
 });
 
 app.get(api + '/account/:accountId', function(req, res) {
   var account = _.find(users, { id: parseInt(req.params.accountId) });
   res.send(account);
+});
+
+app.post(api + '/find/players', function(req, res) {
+  var query = req.body.query.toLowerCase();
+  var foundUsers = _.filter(users, function(user) {
+    if (user.firstName.toLowerCase().indexOf(query) > -1  || user.lastName.toLowerCase().indexOf(query) > -1) {
+      return true;
+    }
+    return false;
+  });
+  res.send(foundUsers);
 });
 
 // function createJwtToken(user) {

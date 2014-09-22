@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  function FindService($q, Restangular) {
+  function FindService($q, Restangular, RestService, AccountService) {
     var service = {};
     var base = Restangular.all('find');
     var geocoder = new google.maps.Geocoder();
@@ -11,6 +11,13 @@
         .then(function(response) {
           return response.data.matches;
         });
+    };
+
+    service.findPlayers = function(query) {
+      return RestService.post('find/players', { query: query })
+        .then(function(players) {
+          return _.map(players, AccountService.formatAccount);
+        })
     };
 
     service.findCity = function(city) {

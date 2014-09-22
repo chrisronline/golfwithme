@@ -1,11 +1,8 @@
-.playdate {
+.outing {
   .players,
   .player,
   .player-name {
     text-align: center;
-  }
-  .playdate-img {
-    margin-right: 1rem;
   }
   .nav-link {
     color: $gray;
@@ -16,15 +13,17 @@
     color: $color-links;
     border-top-color: $color-links;
   }
-
   .nav {
     z-index: 2;
     position: relative;
     top: 1px;
   }
-
   .content {
     padding: 2rem;
     border: solid 1px $nav-tabs-border-color;
+  }
+  .empty-user {
+    display: inline-block;
+    vertical-align: middle;
   }
 }

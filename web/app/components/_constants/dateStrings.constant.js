@@ -4,7 +4,8 @@
   var dateStrings = {
     ISO: 'YYYY-MM-DDTHH:mm:ssZ',
     WIRE: 'YYYY-MM-DD',
-    SHORTHAND: 'MM/DD/YYYY'
+    SHORTHAND: 'MM/DD/YYYY',
+    LONG: 'dddd, MMMM Do YYYY'
   };
 
   var timeStrings = {

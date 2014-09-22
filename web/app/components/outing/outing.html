@@ -1,0 +1,111 @@
+<section class="outing">
+  <header>
+    <h1>{{outingCtrl.outing._formattedDateLong}}</h1>
+    <h2>{{outingCtrl.outing._formattedTime}}</h2>
+    <h3>{{outingCtrl.outing.location.name}}</h3>
+  </header>
+  <ul class="nav nav-tabs nav-justified">
+    <li class="text-center" ng-class="{'active': outingCtrl.tabs.active == 'players'}">
+      <a ui-sref="outing({ id: outingCtrl.outing.id, activeTab: 'players'})" class="nav-link">
+        <i class="fa fa-users"></i>
+        <span>Players</span>
+      </a>
+    </li>
+    <li class="text-center" ng-class="{'active': outingCtrl.tabs.active == 'requests'}">
+      <a ui-sref="outing({ id: outingCtrl.outing.id, activeTab: 'requests'})" class="nav-link">
+        <i class="fa fa-inbox"></i>
+        <span>Requests</span>
+      </a>
+    </li>
+    <li class="text-center" ng-class="{'active': outingCtrl.tabs.active == 'chat'}">
+      <a ui-sref="outing({ id: outingCtrl.outing.id, activeTab: 'chat'})" class="nav-link">
+        <i class="fa fa-comment"></i>
+        <span>Chat</span>
+      </a>
+    </li>
+    <li class="text-center" ng-class="{'active': outingCtrl.tabs.active == 'events'}">
+      <a ui-sref="outing({ id: outingCtrl.outing.id, activeTab: 'events'})" class="nav-link">
+        <i class="fa fa-tasks"></i>
+        <span>Events</span>
+      </a>
+    </li>
+  </ul>
+  <!-- <pre>{{outingCtrl.outing|json}}</pre> -->
+  <div class="content" ng-switch="outingCtrl.tabs.active">
+    <div class="content-players" ng-switch-when="players">
+      <ul class="nav nav-tabs nav-justified">
+        <li ng-repeat="player in outingCtrl.outing.players track by player.id" class="player">
+          <img ng-src="{{player.profilePicture}}" class="outing-img img-large--rounded" />
+          <h4 class="player-name">{{player.firstName}} {{player.lastName}}</h4>
+        </li>
+        <li ng-repeat="player in outingCtrl.outing._empties" class="player">
+          <i class="fa fa-user fa-6x empty-user"></i>
+          <div>
+            <button class="btn btn-primary" ng-click="outingCtrl.add.toggle(player)" ng-hide="player._visible">
+              <i class="fa fa-plus"></i>
+              Add Player
+            </button>
+          </div>
+          <div ng-if="player._visible">
+            <select selectize placeholder="Select a pending request"
+              options="outingCtrl.add.options"
+              ng-model="player.id">
+              <!-- <option ng-repeat="outingCtrl.outing." -->
+            </select>
+            <em>or</em>
+            <select selectize placeholder="Invite a player"
+              options="outingCtrl.invite.options"
+              ng-model="player.id">
+            </select>
+            <button class="btn btn-default" ng-click="outingCtrl.add.toggle(player)">Cancel</button>
+            <button class="btn btn-primary" ng-click="outingCtrl.add.invite(player)">Invite</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="content-chat" ng-switch-when="chat">
+      <ul class="list-group">
+        <li ng-repeat="message in outingCtrl.outing.messages track by message.id" class="list-group-item">
+          <div class="row">
+            <div class="col-lg-1">
+              <img ng-src="{{message.user.profilePicture}}" class="img-medium--rounded"/>
+            </div>
+            <div class="col-lg-8">
+              <span>{{message.message}}</span>
+            </div>
+            <div class="col-lg-3">
+              <span>{{message._formattedDate}}</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="content-events" ng-switch-when="events">
+      <ul class="list-group">
+        <li ng-repeat="event in outingCtrl.outing.events track by event.id" class="list-group-item" ng-switch="event.type">
+          <div ng-switch-when="CREATE">
+            <h4 class="list-group-item-header">
+              {{event._formattedDate}}: {{event.user.firstName}} {{event.user.lastName}} created the play date
+            </h4>
+          </div>
+          <div ng-switch-when="REQUEST_JOIN">
+            <h4 class="list-group-item-header">
+              {{event._formattedDate}}: {{event.user.firstName}} {{event.user.lastName}} wants to join
+            </h4>
+            <p class="list-group-item-text">
+              <em>{{event.message}}</em>
+            </p>
+          </div>
+          <div ng-switch-when="REQUEST_ACCEPT">
+            <h4 class="list-group-item-header">
+              {{event._formattedDate}}: {{event.user.firstName}} {{event.user.lastName}} accepted {{event.acceptedUser.firstName}} {{event.acceptedUser.lastName}}'s request to join
+            </h4>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- <pre>{{outingCtrl|json}}</pre> -->
+</section>

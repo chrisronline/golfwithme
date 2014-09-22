@@ -6,8 +6,8 @@
       restrict: 'EA',
       require: 'ngModel',
       scope: {
-        options: '=',
-        control: '='
+        options: '=?',
+        control: '=?'
       },
       link: function($scope, $element, $attrs, $ctrl) {
         var timeout;

@@ -6,20 +6,20 @@
         <h2>Schedule</h2>
       </header>
       <ul class="list-group">
-        <li ng-repeat="playdate in dashboard.schedule" class="list-group-item" ui-sref="playdate({id:playdate.id})">
+        <li ng-repeat="outing in dashboard.schedule" class="list-group-item" ui-sref="outing({id:outing.id})">
           <div class="row">
             <div class="col-lg-2">
-              <h5 class="playdate-location">{{playdate.location.name}}</h5>
+              <h5 class="outing-location">{{outing.location.name}}</h5>
             </div>
             <div class="col-lg-8">
-              <ul class="playdate-players">
-                <li ng-repeat="player in playdate.players" class="player">
-                  <img ng-src="{{player.profilePicture}}" class="playdate-img img-small--rounded" />
+              <ul class="outing-players">
+                <li ng-repeat="player in outing.players" class="player">
+                  <img ng-src="{{player.profilePicture}}" class="outing-img img-small--rounded" />
                 </li>
               </ul>
             </div>
             <div class="col-lg-2">
-              <h5 class="playdate-date">{{playdate._formattedDate}}</h5>
+              <h5 class="outing-date">{{outing._formattedDate}}</h5>
             </div>
           </div>
         </li>
