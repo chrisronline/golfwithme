@@ -15,6 +15,7 @@
       <a ui-sref="outing({ id: outingCtrl.outing.id, activeTab: 'requests'})" class="nav-link">
         <i class="fa fa-inbox"></i>
         <span>Requests</span>
+        <span class="badge">{{outingCtrl.outing.inboundRequests.length}}</span>
       </a>
     </li>
     <li class="text-center" ng-class="{'active': outingCtrl.tabs.active == 'chat'}">
@@ -32,11 +33,26 @@
   </ul>
   <!-- <pre>{{outingCtrl.outing|json}}</pre> -->
   <div class="content" ng-switch="outingCtrl.tabs.active">
+
     <div class="content-players" ng-switch-when="players">
       <ul class="nav nav-tabs nav-justified">
         <li ng-repeat="player in outingCtrl.outing.players track by player.id" class="player">
           <img ng-src="{{player.profilePicture}}" class="outing-img img-large--rounded" />
           <h4 class="player-name">{{player.firstName}} {{player.lastName}}</h4>
+          <div class="player-actions">
+            <button class="btn btn-danger">
+              <i class="fa fa-trash"></i>
+              Remove Player
+            </button>
+          </div>
+        </li>
+        <li ng-repeat="request in outingCtrl.outing.outboundRequests track by request.id" class="player invited">
+          <img ng-src="{{request.to.profilePicture}}" class="outing-img img-large--rounded" />
+          <h4 class="player-name">{{request.to.firstName}} {{request.to.lastName}}</h4>
+          <h5 class="player-status"><em>Pending Invite</em></h5>
+          <div class="player-actions">
+            <button class="btn btn-warning">Cancel Invite</button>
+          </div>
         </li>
         <li ng-repeat="player in outingCtrl.outing._empties" class="player">
           <i class="fa fa-user fa-6x empty-user"></i>
@@ -47,10 +63,10 @@
             </button>
           </div>
           <div ng-if="player._visible">
+            <!-- <pre>{{player|json}}</pre> -->
             <select selectize placeholder="Select a pending request"
               options="outingCtrl.add.options"
               ng-model="player.id">
-              <!-- <option ng-repeat="outingCtrl.outing." -->
             </select>
             <em>or</em>
             <select selectize placeholder="Invite a player"
@@ -59,6 +75,26 @@
             </select>
             <button class="btn btn-default" ng-click="outingCtrl.add.toggle(player)">Cancel</button>
             <button class="btn btn-primary" ng-click="outingCtrl.add.invite(player)">Invite</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="content-chat" ng-switch-when="requests">
+      <ul class="nav nav-tabs nav-justified">
+        <li ng-repeat="request in outingCtrl.outing.inboundRequests track by request.id" class="player">
+          <img ng-src="{{request.player.profilePicture}}" class="outing-img img-large--rounded" />
+          <h4 class="player-name">{{request.player.firstName}} {{request.player.lastName}}</h4>
+          <h5 class="player-message"><em>{{request.message}}</em></h5>
+          <div class="player-actions">
+            <button class="btn btn-success">
+              <i class="fa fa-check"></i>
+              Approve
+            </button>
+            <button class="btn btn-danger">
+              <i class="fa fa-times"></i>
+              Decline
+            </button>
           </div>
         </li>
       </ul>
@@ -107,5 +143,4 @@
       </ul>
     </div>
   </div>
-  <!-- <pre>{{outingCtrl|json}}</pre> -->
 </section>

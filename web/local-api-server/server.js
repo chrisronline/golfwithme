@@ -6,33 +6,13 @@ var request = require('request');
 var qs = require('querystring');
 var jwt = require('jwt-simple');
 var moment = require('moment');
-var config = require('./config.json');
+// var config = require('./config.json');
 var _ = require('lodash');
+// var redisSrc = require('redis');
+// var redis = redisSrc.createClient();
 
 app.use(cors());
 app.use(bodyParser.json());
-
-// app.post('/auth/facebook', function(req, res) {
-//   var accessTokenUrl = 'https://graph.facebook.com/oauth/access_token';
-//   var graphApiUrl = 'https://graph.facebook.com/me';
-//
-//   var params = {
-//     client_id: req.body.clientId,
-//     redirect_uri: req.body.redirectUri,
-//     client_secret: config.FACEBOOK_SECRET,
-//     code: req.body.code
-//   };
-//
-//   // Step 1. Exchange authorization code for access token.
-//   request.get({ url: accessTokenUrl, qs: params }, function(error, response, accessToken) {
-//     accessToken = qs.parse(accessToken);
-//
-//     // Step 2. Retrieve information about the current user.
-//     request.get({ url: graphApiUrl, qs: accessToken, json: true }, function(error, response, profile) {
-//       res.send({ token: createJwtToken(profile) });
-//     });
-//   });
-// });
 
 var locations = [
   {
@@ -62,7 +42,7 @@ var inboundRequests = [
   {
     id: 1,
     outingId: 1,
-    player: 1,
+    player: 4,
     date: moment().add(_.random(0, 100), 'days'),
     message: 'Can I join please bros?'
   }
@@ -73,7 +53,7 @@ var outboundRequests = [
     id: 1,
     outingId: 1,
     from: 1,
-    to: 2,
+    to: 3,
     date: moment().add(_.random(0, 100), 'days'),
     message: 'Wanna play bro?'
   }
@@ -132,8 +112,8 @@ var outings = [
     location: 1,
     players: [1, 2],
     maxPlayers: 4,
-    inboundRequests: [],
-    outboundRequests: [],
+    inboundRequests: [1],
+    outboundRequests: [1],
     events: [1,2,3],
     messages: [1]
   },
@@ -183,24 +163,25 @@ var loggedInUserId = 1;
 function formatOuting(outing) {
   var copy = _.clone(outing);
 
-  copy.outboundRequests = _.map(copy.outboundRequests, function(id) {
-    return _.find(outboundRequests, { id: id });
-  });
-  copy.inboundRequests = _.map(copy.inboundRequests, function(id) {
-    return _.find(inboundRequests, { id: id });
-  });
-  copy.location = _.find(locations, { id: copy.location });
-  copy.events = _.map(copy.events, function(eventId) {
-    return _.find(events, { id: eventId });
-  });
-  copy.messages = _.map(copy.messages, function(messageId) {
-    return _.find(messages, { id: messageId });
-  });
+  // copy.outboundRequests = _.map(copy.outboundRequests, function(id) {
+  //   return _.find(outboundRequests, { id: id });
+  // });
+  // copy.inboundRequests = _.map(copy.inboundRequests, function(id) {
+  //   return _.find(inboundRequests, { id: id });
+  // });
+  // copy.location = _.find(locations, { id: copy.location });
+  // copy.events = _.map(copy.events, function(eventId) {
+  //   return _.find(events, { id: eventId });
+  // });
+  // copy.messages = _.map(copy.messages, function(messageId) {
+  //   return _.find(messages, { id: messageId });
+  // });
 
   return copy;
 }
 
 var api = '/api/v1';
+var redisPrefix = 'gwm_';
 // app.post(api + '/find', function(req, res) {
 //   var data = _.mapValues(req.body, function(value, key) {
 //     if (key === 'when') {
@@ -219,6 +200,11 @@ var api = '/api/v1';
 //   });
 
 //   res.send({data:{matches: matches}});
+// });
+
+// app.post(api + '/load', function(req, res) {
+//   redis.set(redisPrefix + 'users', JSON.stringify(users));
+//   res.send(true);
 // });
 
 app.get(api + '/schedule', function(req, res) {
@@ -251,8 +237,19 @@ app.post(api + '/outing/invite', function(req, res) {
 });
 
 app.get(api + '/account/:accountId', function(req, res) {
-  var account = _.find(users, { id: parseInt(req.params.accountId) });
-  res.send(account);
+  res.send(_.find(users, {id: parseInt(req.params.accountId)}));
+});
+app.get(api + '/message/:messageId', function(req, res) {
+  res.send(_.find(messages, {id: parseInt(req.params.messageId)}));
+});
+app.get(api + '/event/:eventId', function(req, res) {
+  res.send(_.find(events, {id: parseInt(req.params.eventId)}));
+});
+app.get(api + '/request/outbound/:requestId', function(req, res) {
+  res.send(_.find(outboundRequests, {id: parseInt(req.params.requestId)}));
+});
+app.get(api + '/request/inbound/:requestId', function(req, res) {
+  res.send(_.find(inboundRequests, {id: parseInt(req.params.requestId)}));
 });
 
 app.post(api + '/find/players', function(req, res) {
@@ -265,15 +262,6 @@ app.post(api + '/find/players', function(req, res) {
   });
   res.send(foundUsers);
 });
-
-// function createJwtToken(user) {
-//   var payload = {
-//     user: user,
-//     iat: moment().valueOf(),
-//     exp: moment().add(7, 'days').valueOf()
-//   };
-//   return jwt.encode(payload, config.TOKEN_SECRET);
-// }
 
 app.listen(3001, function() {
   console.log('Running on port 3001 with CORS enabled...');

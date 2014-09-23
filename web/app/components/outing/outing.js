@@ -58,6 +58,9 @@
         valueField: 'id',
         sortField: '_displayName',
         searchField: '_displayName',
+        options: _.map(outing.inboundRequests, function(request) {
+          return {id: request.player.id, _displayName:request.player._displayName}
+        })
       }
     };
   }

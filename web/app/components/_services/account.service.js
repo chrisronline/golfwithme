@@ -17,15 +17,6 @@
       });
     };
 
-    service.fillAccount = function(playerId) {
-      var player = {id:playerId};
-      service.get(player.id)
-        .then(function(_player) {
-          player = _.extend(player, _player);
-        });
-      return player;
-    };
-
     service.formatAccount = function(account) {
       account._displayName = account.firstName + ' ' + account.lastName;
       return account;
