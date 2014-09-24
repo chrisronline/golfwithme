@@ -1,5 +1,7 @@
 <html>
 
+<!-- Look at this for reference on what is being drawn: http://www.openstreetmap.org/export#map=15/38.9402/-77.3449 -->
+
 <head>
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script type="text/javascript">
@@ -50,8 +52,8 @@
 
                   for(var j = 0; j < wayNodes.length; j++){
                         var wayPathNode = nodes[wayNodes[j]];
-                        var x = (wayPathNode.lat - minLat) * scale;
-                        var y = (wayPathNode.lon - minLon) * scale;
+                        var y = 250 - ((wayPathNode.lat - minLat) * scale);
+                        var x = 200 + (wayPathNode.lon - minLon) * scale;
                       if(first){
                           ctx.moveTo(x,y);
                         first = false;
