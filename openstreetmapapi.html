@@ -1,0 +1,95 @@
+<html>
+
+<head>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+          var url = "http://overpass-api.de/api/interpreter";
+          var query = "<osm-script output='json' timeout='25'><union><query type='node'><has-kv k='leisure' v='golf_course'/><bbox-query s='38.93587860587903' w='-77.36121654510498' n='38.949430277096724' e='-77.33207702636719'/></query><query type='way'><has-kv k='leisure' v='golf_course'/><bbox-query s='38.93587860587903' w='-77.36121654510498' n='38.949430277096724' e='-77.33207702636719'/></query><query type='relation'><has-kv k='leisure' v='golf_course'/><bbox-query s='38.93587860587903' w='-77.36121654510498' n='38.949430277096724' e='-77.33207702636719'/></query></union><print mode='body'/><recurse type='down'/><print mode='skeleton' order='quadtile'/></osm-script>";
+
+          var nodes = [];
+          var ways = [];
+          var nodeIds = [];
+
+          $.post(url, query, function(data, status){
+              for(var i = 0; i < data.elements.length; i++){
+              var element = data.elements[i];
+                  if(element.type === "node"){
+                    nodes[element.id] = element;
+                    nodeIds.push(element.id);
+                  }
+                  else {
+                    ways.push(element) 
+                  }
+              }
+
+              var displayNodes = [];
+              for(var i = 0; i < nodeIds.length; i++){
+                displayNodes.push(nodes[nodeIds[i]]);
+              }
+
+              var maxLat = findMax(displayNodes, function(e){ return e.lat });
+              var maxLon = findMax(displayNodes, function(e){ return e.lon });
+              var minLat = findMin(displayNodes, function(e){ return e.lat });
+              var minLon = findMin(displayNodes, function(e){ return e.lon });
+
+              var latWidthMult = (maxLat - minLat);
+              var lonHeightMult = maxLon - minLon;
+
+              var scale = 200 / (maxLat - minLat);
+
+              for(var i = 0; i < ways.length; i++){
+                  var way = ways[i];
+                  var wayNodes = way.nodes;
+                  var ctx = document.getElementById("canvas").getContext("2d");
+                  ctx.fillStyle = '#0f0';
+                  ctx.beginPath();
+                  ctx.moveTo(0,0);
+                  console.log(way);
+                  var first = true;
+
+                  for(var j = 0; j < wayNodes.length; j++){
+                        var wayPathNode = nodes[wayNodes[j]];
+                        var x = (wayPathNode.lat - minLat) * scale;
+                        var y = (wayPathNode.lon - minLon) * scale;
+                      if(first){
+                          ctx.moveTo(x,y);
+                        first = false;
+                      }
+                      else{
+                        ctx.lineTo(x,y); 
+                      }
+                  }
+
+                  
+                  ctx.stroke();
+              }
+
+          });
+  });
+
+  function findMax(nodes, transform){
+              return nodes.map(transform)
+              .reduce(function(prev, current){ 
+                      return Math.max(prev, current) }, -900000);
+
+  }
+
+    function findMin(nodes, transform){
+              return nodes.map(transform)
+              .reduce(function(prev, current){ 
+                      return Math.min(prev, current) 
+              }, 900000);
+    }
+
+
+</script>
+</head>
+
+<body>
+<canvas height="500" width="1000" style="background-color: gray" id="canvas">Your browser doesnt support canvas</canvas>
+
+</body>
+
+</html>
+
