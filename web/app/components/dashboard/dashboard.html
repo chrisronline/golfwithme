@@ -9,7 +9,7 @@
         <li ng-repeat="outing in dashboard.schedule" class="list-group-item" ui-sref="outing({id:outing.id})">
           <div class="row">
             <div class="col-lg-2">
-              <h5 class="outing-location">{{outing.location.name}}</h5>
+              <h5 class="outing-location">{{outing.course.name}}</h5>
             </div>
             <div class="col-lg-8">
               <ul class="outing-players">
@@ -19,7 +19,7 @@
               </ul>
             </div>
             <div class="col-lg-2">
-              <h5 class="outing-date">{{outing._formattedDate}}</h5>
+              <h5 class="outing-date">{{outing.date | momentFormat:"DATE_AND_TIME"}}</h5>
             </div>
           </div>
         </li>

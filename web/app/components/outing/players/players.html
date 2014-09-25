@@ -1,7 +1,7 @@
 <ul class="nav nav-tabs nav-justified">
   <li ng-repeat="player in outingCtrl.outing.players track by player.id" class="player">
     <img ng-src="{{player.profilePicture}}" class="outing-img img-large--rounded" />
-    <h4 class="player-name">{{player.firstName}} {{player.lastName}}</h4>
+    <h4 class="player-name">{{player.firstName}} {{player.lastName}} ({{player.handicap}})</h4>
     <div class="player-actions">
       <button class="btn btn-danger">
         <i class="fa fa-trash"></i>
@@ -11,7 +11,7 @@
   </li>
   <li ng-repeat="request in outingCtrl.outing.outboundRequests track by request.id" class="player invited">
     <img ng-src="{{request.to.profilePicture}}" class="outing-img img-large--rounded" />
-    <h4 class="player-name">{{request.to.firstName}} {{request.to.lastName}}</h4>
+    <h4 class="player-name">{{request.to.firstName}} {{request.to.lastName}} ({{request.to.handicap}})</h4>
     <h5 class="player-status"><em>Pending Invite</em></h5>
     <div class="player-actions">
       <button class="btn btn-warning">Cancel Invite</button>

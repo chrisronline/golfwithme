@@ -26,5 +26,13 @@
     display: inline-block;
     vertical-align: middle;
   }
-  
+  .player {
+    position: relative;
+  }
+  .player-handicap {
+    position: absolute;
+    left: 45%;
+    top: 75px;
+    background-color: $color-links;
+  }
 }
