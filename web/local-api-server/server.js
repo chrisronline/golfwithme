@@ -14,7 +14,7 @@ var _ = require('lodash');
 app.use(cors());
 app.use(bodyParser.json());
 
-var locations = [
+var courses = [
   {
     id: 1,
     name: 'Shadow Lake',
@@ -109,7 +109,7 @@ var outings = [
   {
     id: 1,
     date: moment().add(_.random(0, 100), 'days'),
-    location: 1,
+    course: 1,
     players: [1, 2],
     maxPlayers: 4,
     inboundRequests: [1],
@@ -120,7 +120,7 @@ var outings = [
   {
     id: 2,
     date: moment().add(_.random(0, 100), 'days'),
-    location: 2,
+    course: 2,
     players: [3, 4],
     maxPlayers: 3,
     messages: [2,3]
@@ -160,65 +160,21 @@ var users = [
 
 var loggedInUserId = 1;
 
-function formatOuting(outing) {
-  var copy = _.clone(outing);
-
-  // copy.outboundRequests = _.map(copy.outboundRequests, function(id) {
-  //   return _.find(outboundRequests, { id: id });
-  // });
-  // copy.inboundRequests = _.map(copy.inboundRequests, function(id) {
-  //   return _.find(inboundRequests, { id: id });
-  // });
-  // copy.location = _.find(locations, { id: copy.location });
-  // copy.events = _.map(copy.events, function(eventId) {
-  //   return _.find(events, { id: eventId });
-  // });
-  // copy.messages = _.map(copy.messages, function(messageId) {
-  //   return _.find(messages, { id: messageId });
-  // });
-
-  return copy;
-}
-
 var api = '/api/v1';
 var redisPrefix = 'gwm_';
-// app.post(api + '/find', function(req, res) {
-//   var data = _.mapValues(req.body, function(value, key) {
-//     if (key === 'when') {
-//       return moment(value);
-//     }
-//     return value;
-//   })
-
-//   var matches = [];
-//   _.each(outings, function(outing) {
-//     console.log('outing date', outing.date.format());
-//     console.log('when', data.when.format());
-//     if (outing.date.isSame(data.when, 'day')) {
-//       matches.push(formatouting(outing));
-//     }
-//   });
-
-//   res.send({data:{matches: matches}});
-// });
-
-// app.post(api + '/load', function(req, res) {
-//   redis.set(redisPrefix + 'users', JSON.stringify(users));
-//   res.send(true);
-// });
 
 app.get(api + '/schedule', function(req, res) {
   var now = moment().subtract(1, 'hour');
   var schedule = [];
   _.each(outings, function(outing) {
-    schedule.push(formatOuting(outing));
+    schedule.push(outing);
   });
   res.send(schedule);
 });
 
 app.get(api + '/outing/:id', function(req, res) {
   var outing = _.find(outings, {id:parseInt(req.params.id)});
-  res.send(formatOuting(outing));
+  res.send(outing);
 });
 app.post(api + '/outing/invite', function(req, res) {
   var invited = parseInt(req.body.to);
@@ -233,7 +189,7 @@ app.post(api + '/outing/invite', function(req, res) {
   };
   outboundRequests.push(request);
   outing.outboundRequests.push(request.id);
-  res.send(formatOuting(outing));
+  res.send(outing);
 });
 
 app.get(api + '/account/:accountId', function(req, res) {
@@ -251,6 +207,9 @@ app.get(api + '/request/outbound/:requestId', function(req, res) {
 app.get(api + '/request/inbound/:requestId', function(req, res) {
   res.send(_.find(inboundRequests, {id: parseInt(req.params.requestId)}));
 });
+app.get(api + '/course/:courseId', function(req, res) {
+  res.send(_.find(courses, {id: parseInt(req.params.courseId)}));
+});
 
 app.post(api + '/find/players', function(req, res) {
   var query = req.body.query.toLowerCase();
@@ -261,6 +220,16 @@ app.post(api + '/find/players', function(req, res) {
     return false;
   });
   res.send(foundUsers);
+});
+app.post(api + '/find/courses', function(req, res) {
+  var query = req.body.query.toLowerCase();
+  var foundCourses = _.filter(courses, function(course) {
+    if (course.name.toLowerCase().indexOf(query) > -1) {
+      return true;
+    }
+    return false;
+  });
+  res.send(foundCourses);
 });
 
 app.listen(3001, function() {

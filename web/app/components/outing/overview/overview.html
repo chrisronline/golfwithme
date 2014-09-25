@@ -1,0 +1,42 @@
+<ul class="list-group">
+  <li class="list-group-item">
+    <div class="display" ng-show="!overviewCtrl.editMode">
+      <i class="fa fa-calendar-o"></i>
+      {{outingCtrl.outing.date | momentFormat:"DATE_LONG"}}
+    </div>
+    <div class="edit" ng-show="overviewCtrl.editMode">
+      <input type="date" ng-model="outingCtrl.outing._dateControl" ng-change="overviewCtrl.updateDate()"/>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="display" ng-show="!overviewCtrl.editMode">
+      <i class="fa fa-clock-o"></i>
+      {{outingCtrl.outing.date | momentFormat:"TIME_SHORTHAND"}}
+    </div>
+    <div class="edit" ng-show="overviewCtrl.editMode">
+      <input type="time" ng-model="outingCtrl.outing._timeControl" ng-change="overviewCtrl.updateTime()"/>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <div class="display" ng-show="!overviewCtrl.editMode">
+      <i class="fa fa-map-marker"></i>
+      {{outingCtrl.outing.course.name}}
+    </div>
+    <div class="edit" ng-show="overviewCtrl.editMode">
+      <select selectize placeholder="Select a course"
+        options="overviewCtrl.course.options"
+        control="overviewCtrl.course.control"
+        ng-model="outingCtrl.outing.course.id"
+        ng-change="overviewCtrl.updateCourse()">
+      </select>
+    </div>
+  </li>
+</ul>
+<button class="btn btn-default" ng-click="overviewCtrl.toggleEditMode()" ng-show="!overviewCtrl.editMode">
+  <i class="fa fa-pencil"></i>
+  Edit
+</button>
+<button class="btn btn-success" ng-click="overviewCtrl.toggleEditMode()" ng-show="overviewCtrl.editMode">
+  <i class="fa fa-save"></i>
+  Save
+</button>

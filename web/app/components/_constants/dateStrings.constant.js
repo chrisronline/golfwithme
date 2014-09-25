@@ -2,17 +2,15 @@
   'use strict';
 
   var dateStrings = {
-    ISO: 'YYYY-MM-DDTHH:mm:ssZ',
-    WIRE: 'YYYY-MM-DD',
-    SHORTHAND: 'MM/DD/YYYY',
-    LONG: 'dddd, MMMM Do YYYY'
-  };
-
-  var timeStrings = {
-    SHORTHAND: 'h:mm a'
+    DATE_ISO: 'YYYY-MM-DDTHH:mm:ssZ',
+    DATE_WIRE: 'YYYY-MM-DD',
+    DATE_SHORTHAND: 'MM/DD/YYYY',
+    DATE_LONG: 'dddd, MMMM Do YYYY',
+    DATE_CONTROL: 'YYYY-MM-DD',
+    TIME_SHORTHAND: 'h:mm a',
+    TIME_CONTROL: 'HH:mm'
   };
 
   angular.module('golfWithMe')
-    .constant('TIME_STRINGS', timeStrings)
     .constant('DATE_STRINGS', dateStrings);
 })();

@@ -1,0 +1,17 @@
+<ul class="nav nav-tabs nav-justified">
+  <li ng-repeat="request in outingCtrl.outing.inboundRequests track by request.id" class="player">
+    <img ng-src="{{request.player.profilePicture}}" class="outing-img img-large--rounded" />
+    <h4 class="player-name">{{request.player.firstName}} {{request.player.lastName}}</h4>
+    <h5 class="player-message"><em>{{request.message}}</em></h5>
+    <div class="player-actions">
+      <button class="btn btn-success">
+        <i class="fa fa-check"></i>
+        Approve
+      </button>
+      <button class="btn btn-danger">
+        <i class="fa fa-times"></i>
+        Decline
+      </button>
+    </div>
+  </li>
+</ul>

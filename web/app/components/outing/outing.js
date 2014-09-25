@@ -9,8 +9,13 @@
         controller: 'OutingCtrl',
         controllerAs: 'outingCtrl',
         resolve: {
-          outing: function($stateParams, OutingService) {
-            return OutingService.get($stateParams.id);
+          outing: function($stateParams, OutingService, DATE_STRINGS) {
+            return OutingService.get($stateParams.id)
+              .then(function(outing) {
+                outing._dateControl = moment(outing.date).format(DATE_STRINGS.DATE_CONTROL);
+                outing._timeControl = moment(outing.date).format(DATE_STRINGS.TIME_CONTROL);
+                return outing;
+              })
           },
           activeTab: function($stateParams) {
             return $stateParams.activeTab || 'players';
@@ -20,49 +25,11 @@
       });
   }
 
-  function OutingCtrl(outing, $state, activeTab, FindService, AccountService, OutingService) {
+  function OutingCtrl(outing, $state, activeTab, FindService, AccountService, OutingService, DATE_STRINGS) {
     var outingCtrl = this;
 
     outingCtrl.outing = outing;
     outingCtrl.tabs = { active: activeTab };
-    outingCtrl.invite = {
-      options: {
-        labelField: '_displayName',
-        valueField: 'id',
-        sortField: '_displayName',
-        searchField: '_displayName',
-        load: function(query, callback) {
-          FindService.findPlayers(query)
-            .then(function(players) {
-              players = _.reject(players, function(player) {
-                return !!_.find(outingCtrl.outing.players, {id:player.id});
-              })
-              callback(players);
-            });
-        }
-      }
-    };
-    outingCtrl.add = {
-      toggle: function(player) {
-        player._visible = !player._visible;
-      },
-      invite: function(player) {
-        outing._empties = _.reject(outing._empties, {id:player.id});
-        OutingService.invite(outing.id, player.id)
-          .then(function(outing) {
-            outingCtrl.outing = outing;
-          });
-      },
-      options: {
-        labelField: '_displayName',
-        valueField: 'id',
-        sortField: '_displayName',
-        searchField: '_displayName',
-        options: _.map(outing.inboundRequests, function(request) {
-          return {id: request.player.id, _displayName:request.player._displayName}
-        })
-      }
-    };
   }
 
   angular.module('golfWithMe')
