@@ -17,6 +17,7 @@
     };
 
     function formatMessage(message) {
+      message.date = moment(message.date);
       message.user = ModelService.hydrate(AccountService.get, message.userId);
       return message;
     }

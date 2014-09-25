@@ -91,18 +91,29 @@ var messages = [
   {
     id: 1,
     userId: 1,
+    date: moment().add(_.random(0, 100), 'days'),
     message: 'Hey man - you cool with this?'
   },
   {
     id: 2,
     userId: 3,
+    date: moment().add(_.random(0, 100), 'days'),
     message: 'You suck Tiger. You are like 40'
   },
   {
     id: 3,
     userId: 4,
+    date: moment().add(_.random(0, 100), 'days'),
     message: 'Yup you are right :('
-  }
+  },
+  { id: 4, userId: 2, date: moment().add(_.random(0, 100), 'days'), message: 'Sounds good' },
+  { id: 5, userId: 1, date: moment().add(_.random(0, 100), 'days'), message: 'I want to test pagination' },
+  { id: 6, userId: 1, date: moment().add(_.random(0, 100), 'days'), message: 'so chat more!' },
+  { id: 7, userId: 2, date: moment().add(_.random(0, 100), 'days'), message: 'Dont fuck it up' },
+  { id: 8, userId: 1, date: moment().add(_.random(0, 100), 'days'), message: 'When has that ever happened?' },
+  { id: 9, userId: 2, date: moment().add(_.random(0, 100), 'days'), message: 'About 5 minutes ago' },
+  { id: 10, userId: 1, date: moment().add(_.random(0, 100), 'days'), message: 'Nah that was Noelle typing' },
+  { id: 11, userId: 2, date: moment().add(_.random(0, 100), 'days'), message: 'Sure' },
 ];
 
 var outings = [
@@ -115,7 +126,7 @@ var outings = [
     inboundRequests: [1],
     outboundRequests: [1],
     events: [1,2,3],
-    messages: [1]
+    messages: [1,4,5,6,7,8,9,10,11]
   },
   {
     id: 2,

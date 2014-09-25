@@ -34,12 +34,14 @@ var dev = {
       'angular-bootstrap/ui-bootstrap-tpls.js',
       'angular-promise-cache/angular-promise-cache.js',
       'angular-float-labels/angular-float-labels.js',
-      'selectize/dist/js/standalone/selectize.js'
+      'selectize/dist/js/standalone/selectize.js',
+      'ng-table/ng-table.js'
     ],
     css: [
       'ladda/dist/ladda.min.css',
       'angular-float-labels/angular-float-labels.css',
-      'selectize/dist/css/selectize.bootstrap3.css'
+      'selectize/dist/css/selectize.bootstrap3.css',
+      'ng-table/ng-table.css'
     ],
     fonts: [
       bowerSrc + '/font-awesome/fonts/*',

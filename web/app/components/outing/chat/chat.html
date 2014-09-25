@@ -1,15 +1,13 @@
-<ul class="list-group">
-  <li ng-repeat="message in outingCtrl.outing.messages track by message.id" class="list-group-item">
-    <div class="row">
-      <div class="col-lg-1">
-        <img ng-src="{{message.user.profilePicture}}" class="img-medium--rounded"/>
-      </div>
-      <div class="col-lg-8">
-        <span>{{message.message}}</span>
-      </div>
-      <div class="col-lg-3">
-        <span>{{message._formattedDate}}</span>
-      </div>
-    </div>
-  </li>
-</ul>
+<table ng-table="chatCtrl.tableParams" class="table">
+  <tr ng-repeat="message in $data">
+    <td data-title="'User'">
+      <img ng-src="{{message.user.profilePicture}}" class="img-medium--rounded"/>
+    </td>
+    <td data-title="'Message'">
+      <span>{{message.message}}</span>
+    </td>
+    <td data-title="'Date'">
+      <span>{{message.date | momentFormat:"DATE_AND_TIME"}}</span>
+    </td>
+  </tr>
+</table>
