@@ -2,12 +2,12 @@
   <li ng-repeat="event in outingCtrl.outing.events track by event.id" class="list-group-item" ng-switch="event.type">
     <div ng-switch-when="CREATE">
       <h4 class="list-group-item-header">
-        {{event._formattedDate}}: {{event.user.firstName}} {{event.user.lastName}} created the play date
+        {{event.date | momentFormat:"CALENDAR"}}: {{event.user.firstName}} {{event.user.lastName}} created the play date
       </h4>
     </div>
     <div ng-switch-when="REQUEST_JOIN">
       <h4 class="list-group-item-header">
-        {{event._formattedDate}}: {{event.user.firstName}} {{event.user.lastName}} wants to join
+        {{event.date | momentFormat:"CALENDAR"}}: {{event.user.firstName}} {{event.user.lastName}} wants to join
       </h4>
       <p class="list-group-item-text">
         <em>{{event.message}}</em>
@@ -15,7 +15,7 @@
     </div>
     <div ng-switch-when="REQUEST_ACCEPT">
       <h4 class="list-group-item-header">
-        {{event._formattedDate}}: {{event.user.firstName}} {{event.user.lastName}} accepted {{event.acceptedUser.firstName}} {{event.acceptedUser.lastName}}'s request to join
+        {{event.date | momentFormat:"CALENDAR"}}: {{event.user.firstName}} {{event.user.lastName}} accepted {{event.acceptedUser.firstName}} {{event.acceptedUser.lastName}}'s request to join
       </h4>
     </div>
   </li>

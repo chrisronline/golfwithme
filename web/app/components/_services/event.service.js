@@ -17,7 +17,7 @@
     };
 
     function formatEvent(event) {
-      event._formattedDate = moment(event.date).calendar();
+      event.date = moment(event.date);
       event.user = ModelService.hydrate(AccountService.get, event.userId);
       return event;
     }

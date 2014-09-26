@@ -15,6 +15,7 @@
       var key = momentObj.unix();
       if (!_.has(cache, key)) {
         cache[key] = getFormats(momentObj);
+        cache[key].CALENDAR = momentObj.calendar();
       }
       return cache[key][format];
     }
