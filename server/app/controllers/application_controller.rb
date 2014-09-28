@@ -20,7 +20,15 @@ class ApplicationController < ActionController::Base
   			:email,
   			:name,
   			:password,
-  			:password_confirmation
+  			:password_confirmation,
+        :city,
+        :state, 
+        :handicap, 
+        :days_of_week_preference, 
+        :time_of_day_preference, 
+        :cart_or_walk,
+        :speed,
+        :mindset
   			)
   		end
   end  		

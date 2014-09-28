@@ -1,23 +1,60 @@
+<div class="row">
+<div class='col-sm-4'></div>
+<div class='col-sm-4'>
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
 <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :email, required: true, autofocus: true %>
+  
+    <div class="form-inputs">
 
-    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
-    <% end %>
+      <h3>Matching preferences</h3>
+      <%= f.input :city, required: false, autofocus: true, class: 'form-control',  placeholder: "City"  %>
 
-    <%= f.input :password, autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false %>
-    <%= f.input :password_confirmation, required: false %>
-    <%= f.input :current_password, hint: "we need your current password to confirm your changes", required: true %>
-  </div>
+      <%= f.input :state, required: false, autofocus: true, class: 'form-control',  placeholder: "State"  %>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Update" %>
-  </div>
+
+      <%= f.input :handicap, required: false, autofocus: true, class: 'form-control',  placeholder: "Handicap"  %>
+
+      <%= f.input :days_of_week_preference, required: false, autofocus: true, class: 'form-control',  placeholder: "Day of week"  %>
+
+      <%= f.input :time_of_day_preference, required: false, autofocus: true, class: 'form-control',  placeholder: "Time of day"  %>
+
+      <%= f.input :cart_or_walk, required: false, autofocus: true, class: 'form-control' %>      
+
+      <%= f.input :speed, required: false, autofocus: true, class: 'form-control', placeholder: "Speed of play" %>      
+
+      <%= f.input :mindset, required: false, autofocus: true, class: 'form-control', placeholder: "Mindset" %>      
+
+      <h3>Profile settings:</h3>
+    <% if @user.encrypted_password.present? %>
+      
+      <%= f.input :email, required: false, autofocus: true, class: 'form-control',  placeholder: "Email"  %>
+
+
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
+      <% end %>
+
+      
+      <%= f.input :name, required: true, class: 'form-control' %>
+
+      <%= f.input :password, autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false, class: 'form-control', label: false, placeholder: "Change Password"  %>
+      <%= f.input :password_confirmation, required: false, class: 'form-control', label: false, placeholder: "Confirm Password"  %>
+      <br />
+      <%= f.input :current_password, hint: "we need your current password to confirm your changes", required: true, class: 'form-control', label: false, placeholder: "Password"  %>
+
+      <% end %>
+      
+    </div>
+
+  
+
+    <div class="form-actions">
+      <%= f.button :submit, "Update", class: 'btn btn-primary' %>
+    </div>
+  
 <% end %>
 
 <h3>Cancel my account</h3>
@@ -25,3 +62,6 @@
 <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
 
 <%= link_to "Back", :back %>
+</div>
+<div class='col-sm-4'></div>
+</div>

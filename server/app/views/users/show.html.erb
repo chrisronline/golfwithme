@@ -1,0 +1,12 @@
+<div class='media'>
+	<% if @user.provider.nil? %>
+		no pic
+	<% else %>
+		<%= image_tag @user.get_profile_picture, class: 'pull-left' %>
+	<% end %>
+	<div class='media-body'>
+		Name: <%= @user.name %> 
+		<br />
+		Email: <%= @user.email %>
+	</div>
+</div>

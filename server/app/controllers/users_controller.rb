@@ -1,17 +1,15 @@
-class UsersController < Devise::OmniauthCallbacksController
-	def facebook
-		@user = User.find_or_create_from_auth_hash find_or_create_from_auth_hash
-		if @user.persisted?
-			sign_in_and_redirect @user
-		else
-			session["devise.user_attributes"] = @user.user_attributes
-			redirect_to new_user_registration_url, notice: "Oops, something went wrong"
-		end
-	end
+class UsersController < ApplicationController
+  before_action :set_user, only: [:show]
+  def index
+  	@users = User.all
+  end
 
-	private 
+  def show
+  end
 
-	def auth_hash
-		request.env['omniauth.auth']
-	end
+  private
+  
+  def set_user
+  	@user = User.find(params[:id])
+  end
 end

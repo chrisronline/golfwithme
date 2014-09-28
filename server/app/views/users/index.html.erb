@@ -1,0 +1,14 @@
+<h1>Users</h1>
+<ul class="list-group">
+<% @users.each do |user| %>
+
+	<li class="list-group-item">
+
+		<%= link_to user.provider == nil ? user.email : user.name, user_path(user) %>
+		
+		<div class='pull-right'>
+			Last logged in: <%= time_ago_in_words(user.last_sign_in_at) %> ago
+		</div>
+	</li>
+<% end %>
+</ul
