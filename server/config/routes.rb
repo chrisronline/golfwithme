@@ -1,5 +1,8 @@
-GolfWithMe::Application.routes.draw do
-  get 'welcome/index'
-  mount API => '/'
-  root 'welcome#index'
+Rails.application.routes.draw do
+  devise_for :users, controllers: {omniauth_callbacks: 'users/omniauth_callbacks'}
+
+  resources :users
+  get 'pages/index'
+
+  root 'pages#index'
 end

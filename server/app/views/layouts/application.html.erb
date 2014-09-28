@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>GolfWithMe</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
+  <title>Golfwithme</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
 
-<%= yield %>
+<body>
+<%= render 'layouts/header' %>
+
+<% flash.each do |name, msg| %>
+<div class='alert text-center alert-<%= name == "notice" ? "success" : "error" %>'>
+<a class='close' data-dismiss="alert">x</a>
+<%= msg %>
+</div>
+<% end %>
+
+
+
+<div class='container'>
+	<%= yield %>
+</div>
 
 </body>
 </html>
