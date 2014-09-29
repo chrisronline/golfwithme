@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<h3>Details</h3>
+<p>
+  <strong>Start time:</strong>
+  <%= @outing.start_time %>
+</p>
+
+<p>
+  <strong>Course:</strong>
+  <%= @outing.course %>
+</p>
+
+<h3>Players</h3>
+<ul>
+<% @outing.player_outings.each do |player_outing| %>
+ 	<li><%= link_to player_outing.user.email, user_path(player_outing.user) %></li>
+<% end %>
+</ul>
+
+
+<%= link_to 'Edit', edit_outing_path(@outing) %> |
+<%= link_to 'Back', outings_path %>

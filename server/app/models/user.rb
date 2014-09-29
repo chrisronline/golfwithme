@@ -4,6 +4,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook]
 
+  has_many :outings, foreign_key: "creator_id"
+  has_many :outing_player, foreign_key: "user_id"
+  has_many :registered_outings, :through => :outing_player
+
   def self.find_or_create_from_auth_hash(auth_hash)
   	find_by_auth_hash(auth_hash) || create_from_auth_hash(auth_hash)
   end

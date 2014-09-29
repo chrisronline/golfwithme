@@ -1,0 +1,38 @@
+<h1>Listing outings</h1>
+
+<table class='table table-striped'>
+  <thead>
+    <tr>
+      <th>Start time</th>
+      <th>Course</th>
+      <th>Creator</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @outings.each do |outing| %>
+      <tr>
+        <td><%= outing.start_time %></td>
+        <td><%= outing.course %></td>
+        <td><%= link_to outing.creator.email, user_path(outing.creator)%></td>
+        <td><%= link_to 'Show', outing %></td>
+        <% if current_user == outing.creator %>
+        <td></td>
+        <td>
+          <%= link_to 'Edit', edit_outing_path(outing) %>
+        </td>
+        <td>
+          <%= link_to 'Destroy', outing, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+        <% else %>
+          <td><%= link_to 'Join', { controller: "outings", action: "join", id: outing}, method: :post%></td><td></td><td></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Outing', new_outing_path %>
