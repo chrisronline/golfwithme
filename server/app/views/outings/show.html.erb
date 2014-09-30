@@ -15,6 +15,8 @@
 </p>
 
 <h3>Players</h3>
+
+<h4>Players wanted: <%= @outing.wanted_num_players %>, Players found <%= @outing.player_outings.count %></h4>
 <ul>
 <% @outing.player_outings.each do |player_outing| %>
  	<li><%= link_to player_outing.user.display_name, user_path(player_outing.user) %></li>

@@ -109,7 +109,7 @@ class OutingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def outing_params
-      params.require(:outing).permit(:start_time, :course, :title, :description)
+      params.require(:outing).permit(:start_time, :course, :title, :description, :wanted_num_players)
     end
 
     def check_user

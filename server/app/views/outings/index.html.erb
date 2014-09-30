@@ -12,7 +12,7 @@
       <th>Creator</th>
       <th>Actions</th>
     </tr>
-  </thead>
+</thead>
 
   <tbody>
     <% @outings.each do |outing| %>
@@ -22,7 +22,7 @@
         <td><%= outing.start_time %></td>
         <td><%= outing.course %></td>
         <td><%= outing.player_outings.count %></td>
-        <td><%= 4 - outing.player_outings.count %></td>
+        <td><%= outing.wanted_num_players - outing.player_outings.count %></td>
         <td><%= link_to outing.creator.display_name, user_path(outing.creator)%></td>
         <% if outing.player_outings.select {|o| o.user == current_user}.empty? %>
           <td><%= link_to 'Join', { controller: "outings", action: "join", id: outing}, method: :post, class: 'btn btn-primary' %></td><td></td><td></td>
