@@ -6,7 +6,7 @@
 		<%= image_tag @user.get_profile_picture, class: 'pull-left' %>
 	<% end %>
 	<div class='media-body'>
-		Name: <%= @user.name %> 
+		Name: <%= @user.display_name %> 
 		<br />
 		Email: <%= @user.email %>
 	</div>
@@ -28,7 +28,7 @@
       <tr>
         <td><%= outing.start_time %></td>
         <td><%= outing.course %></td>
-        <td><%= link_to outing.creator.email, user_path(outing.creator)%></td>
+        <td><%= link_to outing.creator.display_name, user_path(outing.creator)%></td>
         <td><%= link_to 'Show', outing %></td>
         <td><%= link_to 'Edit', edit_outing_path(outing) %></td>
         <td><%= link_to 'Destroy', outing, method: :delete, data: { confirm: 'Are you sure?' } %></td>

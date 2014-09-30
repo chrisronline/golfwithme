@@ -49,4 +49,8 @@ class User < ActiveRecord::Base
   def get_profile_picture
     self.facebook.get_picture(uid)
   end
+
+  def display_name 
+    name || email
+  end
 end

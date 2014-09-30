@@ -15,7 +15,7 @@
       <tr>
         <td><%= outing.start_time %></td>
         <td><%= outing.course %></td>
-        <td><%= link_to outing.creator.email, user_path(outing.creator)%></td>
+        <td><%= link_to outing.creator.display_name, user_path(outing.creator)%></td>
         <td><%= link_to 'Show', outing %></td>
         <% if current_user == outing.creator %>
         <td></td>
