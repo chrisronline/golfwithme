@@ -1,5 +1,5 @@
 class OutingsController < ApplicationController
-  before_action :set_outing, only: [:show, :edit, :update, :destroy, :join]
+  before_action :set_outing, only: [:show, :edit, :update, :destroy, :join, :unjoin]
   before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
   before_action :check_user, only: [:edit, :update, :destroy]
 
@@ -37,6 +37,24 @@ class OutingsController < ApplicationController
         format.json { render json: @outing.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def unjoin
+      respond_to do |format|
+        if @outing.creator == current_user
+          format.html { redirect_to @outing, alert: 'You can\'t quit from an outing you created!' }
+          format.json { render json: { errors: 'You can\'t quit from an outing you created!' }, status: :unprocessable_entity }
+        else
+          player_outing = @outing.player_outings.select{|player_outing| player_outing.user == current_user}.first
+          if player_outing.destroy
+            format.html { redirect_to @outing, notice: 'Successfully quit from outing.' }
+            format.json { render :show, status: :created, location: @outing }
+          else
+            format.html { redirect_to @outing, alert: 'Failed to quit from outing.' }
+            format.json { render json: @outing.errors, status: :unprocessable_entity }
+          end
+        end
+      end
   end
 
   # POST /outings
@@ -91,7 +109,7 @@ class OutingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def outing_params
-      params.require(:outing).permit(:start_time, :course)
+      params.require(:outing).permit(:start_time, :course, :title, :description)
     end
 
     def check_user

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :users
 
   post 'outings/join/:id', to: 'outings#join'
+  post 'outings/unjoin/:id', to: 'outings#unjoin'
 
   get 'pages/index'
 
