@@ -13,6 +13,12 @@
     var loginCtrl = this;
 
     loginCtrl.user = {};
+    loginCtrl.login = function() {
+      LoginService.login(loginCtrl.user.email, loginCtrl.user.password, loginCtrl.user.remember)
+        .then(function() {
+          console.log('success!');
+        });
+    };
     loginCtrl.redirect = $stateParams.redirect;
   }
 

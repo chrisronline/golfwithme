@@ -3,7 +3,7 @@
 
   function RestService($q, $http) {
     var service = {};
-    var baseUrl = 'http://localhost:3001/api/v1/';
+    var baseUrl = 'http://localhost:3000/api/';
 
     function request(url, method, data) {
       var fullUrl = baseUrl + url;
@@ -14,7 +14,6 @@
           data: data || {}
         })
         .then(function(success) {
-          // console.log(success);
           return success.data;
         })
         .catch(function(error) {
@@ -43,17 +42,5 @@
   }
 
   angular.module('golfWithMe')
-    .factory('RestService', RestService)
-    .config(function(RestangularProvider) {
-      RestangularProvider.setBaseUrl('http://localhost:3001/api/v1/');
-      RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
-        // Handle response transformer here
-        return data;
-      });
-    })
-    .run(function(Restangular) {
-      Restangular.setErrorInterceptor(function(response, deferred, responseHandler) {
-        // Handle errors here
-      });
-    });
+    .factory('RestService', RestService);
 })();
