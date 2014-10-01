@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140930025815) do
+ActiveRecord::Schema.define(version: 20141001030757) do
 
   create_table "outings", force: true do |t|
     t.datetime "start_time"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20140930025815) do
     t.boolean  "cart_or_walk"
     t.string   "speed"
     t.string   "mindset"
+    t.string   "token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

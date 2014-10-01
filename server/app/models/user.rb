@@ -53,4 +53,11 @@ class User < ActiveRecord::Base
   def display_name 
     name || email
   end
+
+  def ensure_authentication_token!
+    self.token = loop do 
+        random_token = SecureRandom.urlsafe_base64(nil, false)
+        break random_token unless self.class.exists?(token: random_token)
+    end if self.token.nil?
+  end
 end
