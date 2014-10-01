@@ -20,10 +20,10 @@ class Api::SessionsController < Devise::SessionsController
 	protected
 	def ensure_params_exist
 		return unless params[:user_login].blank?
-		render :json => {:message => "Error with your login or password"}, :status => 401
+		render :json => {:message => "Error with your email or password"}, :status => 401
 	end
 
 	def invalid_login_attempt
-		render :json => {:message => "Error with your login or password"}, :status => 401
+		render :json => {:message => "Error with your email or password"}, :status => 401
 	end
 end
