@@ -16,7 +16,6 @@
     "font-awesome": "~4.2.0",
     "angular-ui-router": "~0.2.10",
     "normalize-css": "~3.0.1",
-    "restangular": "~1.4.0",
     "lodash": "~2.4.1",
     "satellizer": "~0.3.0",
     "angular-ladda": "~0.1.6",

@@ -23,7 +23,6 @@ var dev = {
       'angularjs/angular.js',
       'angular-ui-router/release/angular-ui-router.js',
       'lodash/dist/lodash.js',
-      'restangular/dist/restangular.js',
       'angular-form-for/dist/form-for.js',
       'ladda/js/spin.js',
       'ladda/js/ladda.js',

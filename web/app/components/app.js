@@ -3,7 +3,6 @@
 
   angular.module('golfWithMe', [
     'ui.router',
-    'restangular',
     'Satellizer',
     'angular-ladda',
     'ui.bootstrap',

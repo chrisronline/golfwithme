@@ -1,16 +1,15 @@
 (function() {
   'use strict';
 
-  function FindService($q, Restangular, RestService, AccountService) {
+  function FindService($q, RestService, AccountService) {
     var service = {};
-    var base = Restangular.all('find');
     var geocoder = new google.maps.Geocoder();
 
     service.find = function(data) {
-      return base.post(data)
-        .then(function(response) {
-          return response.data.matches;
-        });
+      // return base.post(data)
+      //   .then(function(response) {
+      //     return response.data.matches;
+      //   });
     };
 
     service.findPlayers = function(query) {
