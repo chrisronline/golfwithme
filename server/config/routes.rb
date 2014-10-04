@@ -1,19 +1,20 @@
 Rails.application.routes.draw do
-  resources :outings
+  #resources :outings
 
+  
   #devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   namespace :api, :defaults => {:format => 'json'} do
-  	devise_for :users, controllers: { registration: 'registrations'}
+    devise_for :users, controllers: { registration: 'registrations'}, :path => 'auth', :defaults => {:format => 'json'}
   	resources :outings
   end
 
-  resources :users
+  #resources :users
 
-  post 'outings/join/:id', to: 'outings#join'
-  post 'outings/unjoin/:id', to: 'outings#unjoin'
+  #post 'outings/join/:id', to: 'outings#join'
+  #post 'outings/unjoin/:id', to: 'outings#unjoin'
 
-  get 'pages/index'
+  #get 'pages/index'
 
-  root 'pages#index'
+  #root 'pages#index'
 end

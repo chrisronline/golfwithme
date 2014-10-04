@@ -1,12 +1,29 @@
-class Api::OutingsController < ApiResourceController::Base
-	before_filter :authenticate_user!
-	before_filter :ensure_params_exist, :except => [:destroy]
-	protect_from_forgery with: :null_session
-	respond_to :json
-
-  # GET /outings
-  # GET /outings.json
+class Api::OutingsController < Api::BaseController
   def index
-    @outings = Outing.all
+    render json: { :outings => Outing.all }
   end
+
+  def create
+  	if @user.present?
+		outing = Outing.new(outing_params)
+	    outing.creator = @user
+	    player_outing = outing.player_outings.new
+	    player_outing.user = @user
+	    player_outing.outing = outing
+
+	    if outing.save
+			render json: { :outing => outing } , status: :created 
+	    else
+	        render json: { :errors => outing.errors} , status: :unprocessable_entity 
+	    end
+	else
+		render json: { :error => "you must be authenticated"}, status: :unauthorized
+	end
+  end
+
+  private 
+  def outing_params
+  	  json_params = ActionController::Parameters.new(JSON.parse(request.body.read))
+      json_params.require(:outing).permit(:start_time, :course, :title, :description, :wanted_num_players)
+    end
 end

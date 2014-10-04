@@ -1,0 +1,13 @@
+register a new user (returns token)
+curl http://localhost:3000/api/auth.json -d '{  "user": { "email":"email@email.com", "password":"password"  } }'
+
+sign in user (returns token)
+curl http://localhost:3000/api/auth/sign_in.json -d '{  "user": { "email":"email@email.com", "password":"password"  } }'
+
+list outings:
+curl http://localhost:3000/api/outings.json?user_email=email@email.com&user_token=token 
+
+create an outing:
+curl localhost:3000/api/outings.json?user_email=email@email.com&user_token=token -d '{ "outing": { "course": "another course!", "title": "api outing", "description": "awesome", "wanted_num_players": 3, "start_time": "2014-10-03 01:43:15" } }'
+
+

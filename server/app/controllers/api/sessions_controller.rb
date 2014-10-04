@@ -1,14 +1,17 @@
 class Api::SessionsController < Devise::SessionsController
-	before_filter :authenticate_user!, :except => [:create]
-	before_filter :ensure_params_exist, :except => [:destroy]
+	before_filter :configure_permitted_parameters
 	protect_from_forgery with: :null_session
 	respond_to :json
 
 	def create
-		user = User.find_for_database_authentication(:email => params[:user_login][:email])
+		json_params = ActionController::Parameters.new(JSON.parse(request.body.read))
+		json_params.require(:user).permit(:email, :name, :password)
+
+		user = User.find_for_database_authentication(:email => json_params[:user][:email])
+
 		return invalid_login_attempt unless user
 
-		if user.valid_password?(params[:user_login][:password])
+		if user.valid_password?(json_params[:user][:password])
 			sign_in(:user, user)
 			user.ensure_authentication_token!
 			render :json => {:auth_token => user.token, :email => user.email}, :status => :ok
@@ -26,4 +29,33 @@ class Api::SessionsController < Devise::SessionsController
 	def invalid_login_attempt
 		render :json => {:message => "Error with your email or password"}, :status => 401
 	end
+
+	def configure_permitted_parameters
+  	devise_parameter_sanitizer.for(:sign_up) do |u|
+  		u.permit(
+  			:email,
+  			:name,
+  			:password,
+  			:password_confirmation
+  			)
+	  	end
+
+  	devise_parameter_sanitizer.for(:account_update) do |u|
+  		u.permit(
+  			:current_password,
+  			:email,
+  			:name,
+  			:password,
+  			:password_confirmation,
+	        :city,
+	        :state, 
+	        :handicap, 
+	        :days_of_week_preference, 
+	        :time_of_day_preference, 
+	        :cart_or_walk,
+	        :speed,
+	        :mindset
+  			)
+  		end
+  end  		
 end

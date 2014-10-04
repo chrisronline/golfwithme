@@ -1,17 +1,22 @@
 class Api::RegistrationsController < Devise::RegistrationsController	
 	before_filter :configure_permitted_parameters
+	protect_from_forgery with: :null_session
+	respond_to :json
 	
 	def create 		
 		build_resource
 
-		resource.email = params[:user][:email]
-		resource.password = params[:user][:password]
-		
+		json_params = ActionController::Parameters.new(JSON.parse(request.body.read))
+		json_params.require(:user).permit(:email, :name, :password)
+
+		resource.email = json_params[:user][:email]
+		resource.password = json_params[:user][:password]
+		resource.ensure_authentication_token!
+
 		if resource.save
-			resource.ensure_authentication_token!
-			render json: {:user => resource.email, :authentication_token => resource.token }
+			render json: { :token => resource.token }
 		else
-			render json: {:errors => resource.errors, :params => params[:user]}
+			render json: {:errors => resource.errors }, status: 422
 		end
 	end
 
