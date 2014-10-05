@@ -1,14 +1,21 @@
 class Api::BaseController < ActionController::Base
-	before_filter :authenticate_user_from_token
+  before_filter :read_token_authentication
 
-	private
+  private
 
-	def authenticate_user_from_token
-		user_email = params[:user_email].presence
-		@user = user_email && User.find_by_email(user_email)
+  def read_token_authentication
+    return if params[:email].blank? or params[:token].blank?
+    user = User.find_for_database_authentication(:email => params[:email]) 
+    return if !user.present? || user.token != params[:token]
+    @token_auth_user = user
+  end
 
-		if @user && Devise.secure_compare(@user.token, params[:user_token])
-			sign_in @user, store: false
-		end
-	end
+  def require_token_authentication
+  	if @token_auth_user.nil?
+    	render json: {
+  		  success: false,
+  		  message: "Invalid authentication credentials",
+  	  }, status: 401
+    end 
+  end
 end

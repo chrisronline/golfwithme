@@ -4,9 +4,12 @@ Rails.application.routes.draw do
   
   #devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
+
   namespace :api, :defaults => {:format => 'json'} do
-    devise_for :users, controllers: { registration: 'registrations'}, :path => 'auth', :defaults => {:format => 'json'}
+
+    devise_for :users, controllers: { registration: 'registrations'}, :path => 'auth'
   	resources :outings
+    resources :users
   end
 
   #resources :users

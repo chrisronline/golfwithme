@@ -1,0 +1,24 @@
+<%= raw JSON.pretty_generate( 
+	{
+		:users => @users.map { |user| 
+			{  
+				:email => user.email,
+				:id => user.id,
+				:name => user.name,
+				:handicap => user.handicap,
+				:days_of_week => user.days_of_week_preference,
+				:cart_or_walk => user.cart_or_walk,
+				:last_sign_in => user.last_sign_in_at,
+				:mindset => user.mindset,
+				:speed => user.speed,
+				:created_outings => user.outings.map { |outing| 
+							{ 
+							      :id => outing.id, 
+								  :start_time => outing.start_time,
+								  :title => outing.title
+							}
+				}
+			}
+		}
+	}
+) %>

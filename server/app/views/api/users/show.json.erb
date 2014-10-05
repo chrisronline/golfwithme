@@ -1,0 +1,20 @@
+<% 
+  user_json = {  
+    :id => @user.id,
+	:display_name => @user.display_name
+  } 
+
+  if !@token_auth_user.nil?
+	user_json = user_json.merge({
+		:handicap => @user.handicap,
+		:created_outings => @user.outings.map { |outing|
+			{
+				:id => outing.id,
+				:start_time => outing.start_time,
+				:title => outing.title
+			}
+		}
+	})
+  end  
+%>
+<%= raw JSON.pretty_generate({:user => user_json}) %>
