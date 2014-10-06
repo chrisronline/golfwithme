@@ -12,6 +12,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'rspec'
 gem 'factory_girl_rails'
 gem 'rspec-rails'
+gem 'faker'
 
 gem 'spring',        group: :development
 

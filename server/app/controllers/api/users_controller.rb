@@ -17,7 +17,7 @@ class Api::UsersController < Api::BaseController
         :message => "ok"
       }
     else
-    render :json => {
+      render :json => {
         :errors => @user.errors
       }, :status => 422
     end
