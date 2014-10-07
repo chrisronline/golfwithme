@@ -1,6 +1,6 @@
 class Api::OutingsController < Api::BaseController
   def index
-    render json: { :outings => Outing.all }
+    render json: { :outings => Outing.where("start_time >= :now", :now => Time.now) }
   end
 
   def create

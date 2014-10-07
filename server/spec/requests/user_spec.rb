@@ -30,28 +30,28 @@ describe "api/user" do
 
   	  get add_auth_params("/api/users/#{@user.id}.json", login_user)
 
-	  expect(response).to be_success
+	    expect(response).to be_success
   	  expect(json['user']['id']).to eq(@user.id)
-  	  expect(json['user']['handicap']).to eq("10")
+  	  expect(json['user']['handicap']).to eq("#{@user.handicap}")
     end  
   end
 
   describe "destroy" do
     it "doesn't allow different authenticated user to delete" do
-		login_user = create_user
-		add_auth_params("/api/users/#{@user.id}.json", login_user)
-		delete add_auth_params("/api/users/#{@user.id}.json", login_user)
-		expect(response.status).to eq(401)
+		  login_user = create_user
+		  add_auth_params("/api/users/#{@user.id}.json", login_user)
+		  delete add_auth_params("/api/users/#{@user.id}.json", login_user)
+		  expect(response.status).to eq(401)
     end
   
     it "fails with no authentication" do
-		delete "/api/users/#{@user.id}.json"
-		expect(response.status).to eq(401)
+		  delete "/api/users/#{@user.id}.json"
+		  expect(response.status).to eq(401)
     end
 
     it "allows own user to delete their account" do
-		delete add_auth_params("/api/users/#{@user.id}.json", @user)
-		expect(response).to be_success
+		  delete add_auth_params("/api/users/#{@user.id}.json", @user)
+		  expect(response).to be_success
     end
   end
 

@@ -6,7 +6,7 @@ class OutingsController < ApplicationController
   # GET /outings
   # GET /outings.json
   def index
-    @outings = Outing.all
+    @outings = Outing.where("start_time >= :now", :now => Time.now)
   end
 
   # GET /outings/1

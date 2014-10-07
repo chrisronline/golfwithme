@@ -4,13 +4,8 @@ class Api::RegistrationsController < Devise::RegistrationsController
 	respond_to :json
 	
 	def create 		
-		build_resource
-
-		json_params = ActionController::Parameters.new(JSON.parse(request.body.read))
-		json_params.require(:user).permit(:email, :name, :password)
-
-		resource.email = json_params[:user][:email]
-		resource.password = json_params[:user][:password]
+		build_resource(params.require(:user).permit(:email, :name, :password, :handicap))
+        
 		resource.ensure_authentication_token!
 
 		if resource.save
