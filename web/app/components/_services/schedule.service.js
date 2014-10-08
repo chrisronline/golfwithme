@@ -5,9 +5,10 @@
     var service = {};
 
     service.get = function() {
-      return RestService.get('schedule')
+      return RestService.get('outings')
         .then(function(schedule) {
-          return _.map(schedule, OutingService.formatOuting);
+          var outings = schedule.outings;
+          return _.map(outings, OutingService.formatOuting);
         })
     };
 
