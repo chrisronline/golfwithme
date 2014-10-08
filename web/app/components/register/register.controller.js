@@ -1,6 +1,22 @@
 (function() {
   'use strict';
 
+  _.mixin({
+    safeAccess: function(obj, exp) {
+      var parts = exp.split('.');
+      while (parts.length) {
+        var sub = parts.shift();
+        if (_.has(obj, sub)) {
+          obj = obj[sub];
+        }
+        else {
+          return undefined;
+        }
+      }
+      return obj;
+    }
+  });
+
   function RegisterConfig($stateProvider) {
     $stateProvider
       .state('register', {
@@ -9,12 +25,21 @@
       });
   }
 
-  function RegisterCtrl($scope, $auth, $log) {
+  function RegisterCtrl($scope, $auth, $log, RegisterService) {
     var registerCtrl = this;
 
     registerCtrl.user = {};
     registerCtrl.waiting = false;
 
+    registerCtrl.register = function() {
+      RegisterService.register(registerCtrl.user)
+        .then(function(success) {
+          console.log('yay');
+        })
+        .catch(function(error) {
+          registerCtrl.errors = _.safeAccess(error, 'data.errors');
+        });
+    };
     registerCtrl.authenticate = function(provider) {
       registerCtrl.waiting = true;
       $auth.authenticate(provider).then(
@@ -32,35 +57,7 @@
     };
   }
 
-  function RegisterForm(RegisterService) {
-    return {
-      validationRules: {
-        agreed: {
-          required: {
-            rule: true,
-            message: 'You must accept the TOS'
-          }
-        },
-        email: {
-          required: true,
-          pattern: /\w+@\w+\.\w+/
-        },
-        password: {
-          required: true,
-          pattern: {
-            rule: /[0-9]/,
-            message: 'Your password must contain at least 1 number'
-          }
-        }
-      },
-      submit: function(data) {
-        return RegisterService.register(data);
-      }
-    };
-  }
-
   angular.module('golfWithMe')
     .config(RegisterConfig)
-    .factory('RegisterForm', RegisterForm)
     .controller('RegisterCtrl', RegisterCtrl);
 })();

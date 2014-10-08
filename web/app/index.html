@@ -24,7 +24,8 @@
             <li><a ui-sref="post">Post</a></li>
           </ul>
           <ul class="pull-right">
-            <li><a ui-sref="account">Hi, Chris Roberson</a></li>
+            <li><a ui-sref="account">Hi, {{ AUTH.context.email }}</a></li>
+            <li><a ui-sref="logout">Logout</a></li>
           </ul>
         </nav>
       </header>

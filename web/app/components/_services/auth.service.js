@@ -8,6 +8,16 @@
       return service.statics.isAuthed;
     };
 
+    service.handleLogin = function(response) {
+      service.statics.context = response;
+      service.statics.isAuthed = true;
+    };
+
+    service.handleLogout = function() {
+      service.statics.context = null;
+      service.statics.isAuthed = false;
+    };
+
     service.manage = function() {
       $rootScope.$on('$stateChangeStart', function($event, toState, toParams, fromState, fromParams) {
         if (toState.requiresAuth && !service.isAuthed()) {
@@ -18,7 +28,7 @@
     };
 
     service.statics = {
-      isAuthed: true
+      isAuthed: false
     };
 
     return service;
