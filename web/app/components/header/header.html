@@ -1,0 +1,21 @@
+<header class="app-header">
+  <div ng-if="!AUTH.isAuthed">
+    <h1>golfwith<span>.me</span></h1>
+  <h2>Search. Connect. Play</h2>
+  </div>
+  <div ng-if="AUTH.isAuthed">
+    <nav ng-if="AUTH.isAuthed">
+      <ul class="pull-left">
+        <li class="logo"><a ui-sref="dashboard">GWM</a></li>
+        <li>
+          <a ui-sref="find">Find</a>
+        </li>
+        <li><a ui-sref="post">Post</a></li>
+      </ul>
+      <ul class="pull-right">
+        <li><a ui-sref="account">Hi, {{ AUTH.context.email }}</a></li>
+        <li><a ui-sref="logout">Logout</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>

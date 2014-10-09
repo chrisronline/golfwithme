@@ -10,25 +10,7 @@
   </head>
   <body ng-app="golfWithMe" ng-class="{'authed': AUTH.isAuthed, 'not-authed': !AUTH.isAuthed}">
     <div class="container">
-      <header class="app-header" ng-if="!AUTH.isAuthed">
-        <h1>golfwith<span>.me</span></h1>
-        <h2>Search. Connect. Play</h2>
-      </header>
-      <header class="app-header" ng-if="AUTH.isAuthed">
-        <nav ng-if="AUTH.isAuthed">
-          <ul class="pull-left">
-            <li class="logo"><a ui-sref="dashboard">GWM</a></li>
-            <li>
-              <a ui-sref="find">Find</a>
-            </li>
-            <li><a ui-sref="post">Post</a></li>
-          </ul>
-          <ul class="pull-right">
-            <li><a ui-sref="account">Hi, {{ AUTH.context.email }}</a></li>
-            <li><a ui-sref="logout">Logout</a></li>
-          </ul>
-        </nav>
-      </header>
+      <div app-header></div>
       <div class="row wrapper">
         <div ng-class="{'col-lg-8 col-lg-offset-2': !AUTH.isAuthed, 'col-lg-12': AUTH.isAuthed}">
           <div class="content" ui-view></div>
