@@ -13,14 +13,9 @@ gulp.task('browser-sync', function() {
 gulp.task('watchers', function() {
   gulp.watch('./app/components/**/*.scss', ['watch.css']);
 });
-gulp.task('watch.css', function() {
+gulp.task('watch.css', ['css'], function() {
   var reload = require('browser-sync').reload;
-  var sass = require('gulp-sass');
-  return gulp.src('./app/components/_scss/app.scss')
-    .pipe(sass({
-      includePaths: ['app/bower_components', 'app/components']
-    }))
-    .pipe(gulp.dest('./app/css'))
+  return gulp.src('./app/css/app.css')
     .pipe(reload({stream: true}));
 });
 
