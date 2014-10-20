@@ -12,7 +12,7 @@
     "tests"
   ],
   "dependencies": {
-    "angularjs": "~1.2.22",
+    "angular": "~1.3.0",
     "font-awesome": "~4.2.0",
     "angular-ui-router": "~0.2.10",
     "normalize-css": "~3.0.1",
@@ -23,8 +23,31 @@
     "angular-bootstrap": "~0.11.0",
     "bootstrap-sass-official": "~3.2.0",
     "angular-promise-cache": "~0.0.10",
-    "angular-float-labels": "~0.0.2",
+    "angular-float-labels": "~0.0.3",
     "selectize": "~0.11.0",
     "ng-table": "~0.3.3"
+  },
+  "overrides": {
+    "bootstrap-sass-official": {
+      "ignore": true
+    },
+    "angular": {
+      "dependencies": {
+        "jquery": "*"
+      }
+    },
+    "angular-promise-cache": {
+      "dependencies": {
+        "angular": "*"
+      }
+    },
+    "satellizer": {
+      "dependencies": {
+        "angular": "*"
+      }
+    }
+  },
+  "resolutions": {
+    "angular": "~1.3.0"
   }
 }

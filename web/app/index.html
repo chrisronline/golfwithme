@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>golfwith.me</title>
     <link rel="shortcut ico" href="/favicon.ico">
-    <link rel="stylesheet" href="css/vendor.css"/>
-    <link rel="stylesheet" href="css/main.css">
+
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="bower_components/normalize-css/normalize.css">
+    <link rel="stylesheet" href="bower_components/ladda/dist/ladda.min.css">
+    <link rel="stylesheet" href="bower_components/angular-float-labels/angular-float-labels.css">
+    <link rel="stylesheet" href="bower_components/selectize/dist/css/selectize.css">
+    <link rel="stylesheet" href="bower_components/ng-table/ng-table.css">
+    <!-- endinject -->
+    <link rel="stylesheet" href="css/app.css">
   </head>
   <body ng-app="golfWithMe" ng-class="{'authed': AUTH.isAuthed, 'not-authed': !AUTH.isAuthed}">
     <div class="container">
@@ -24,7 +32,60 @@
     <!-- todo: async load -->
     <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMwe5Jd_EU6VVWGZFfX5F-87aTljLvlKM"></script>
-    <script src="js/vendor.js"></script>
-    <script src="js/components.js"></script>
+
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+    <script src="bower_components/spin.js/spin.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/sifter/sifter.js"></script>
+    <script src="bower_components/microplugin/src/microplugin.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/satellizer/satellizer.js"></script>
+    <script src="bower_components/ladda/dist/ladda.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-promise-cache/angular-promise-cache.js"></script>
+    <script src="bower_components/angular-float-labels/angular-float-labels.js"></script>
+    <script src="bower_components/selectize/dist/js/selectize.js"></script>
+    <script src="bower_components/ng-table/ng-table.js"></script>
+    <script src="bower_components/angular-ladda/dist/angular-ladda.min.js"></script>
+    <!-- endinject -->
+
+    <!-- inject:js -->
+    <script src="components/app.js"></script>
+    <script src="components/fonts.js"></script>
+    <script src="components/_constants/dateStrings.constant.js"></script>
+    <script src="components/_filters/moment.filter.js"></script>
+    <script src="components/_services/account.service.js"></script>
+    <script src="components/_services/auth.service.js"></script>
+    <script src="components/_services/course.service.js"></script>
+    <script src="components/_services/event.service.js"></script>
+    <script src="components/_services/find.service.js"></script>
+    <script src="components/_services/message.service.js"></script>
+    <script src="components/_services/model.service.js"></script>
+    <script src="components/_services/request.service.js"></script>
+    <script src="components/_services/rest.service.js"></script>
+    <script src="components/_services/schedule.service.js"></script>
+    <script src="components/dashboard/dashboard.js"></script>
+    <script src="components/header/header.directive.js"></script>
+    <script src="components/home/home.controller.js"></script>
+    <script src="components/integrations/integrations.js"></script>
+    <script src="components/login/login.controller.js"></script>
+    <script src="components/login/login.service.js"></script>
+    <script src="components/outing/outing.js"></script>
+    <script src="components/outing/outing.service.js"></script>
+    <script src="components/register/register.controller.js"></script>
+    <script src="components/register/register.service.js"></script>
+    <script src="components/_directives/bootstrap/bootstrap.directive.js"></script>
+    <script src="components/_directives/selectize/selectize.directive.js"></script>
+    <script src="components/dashboard/playnow/playnow.directive.js"></script>
+    <script src="components/dashboard/postnow/postnow.directive.js"></script>
+    <script src="components/outing/chat/chat.js"></script>
+    <script src="components/outing/events/events.js"></script>
+    <script src="components/outing/overview/overview.js"></script>
+    <script src="components/outing/players/players.js"></script>
+    <script src="components/outing/requests/requests.js"></script>
+    <!-- endinject -->
   </body>
 </html>
