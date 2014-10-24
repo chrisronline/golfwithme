@@ -8,10 +8,16 @@
     'ui.bootstrap',
     'angular-promise-cache',
     'angular-float-labels',
-    'ngTable'])
+    'ngTable',
+    'angular-data.DSCacheFactory',
+    'angular-data.DS'])
 
-    .config(function($urlRouterProvider) {
+    .config(function($urlRouterProvider, DSCacheFactoryProvider) {
       $urlRouterProvider.when('', '/');
+      DSCacheFactoryProvider.setCacheDefaults({
+        storageMode: 'localStorage',
+        storagePrefix: 'gwm:'
+      });
     })
     .run(function($rootScope) {
       // $rootScope.$on('$stateChangeStart', function() { console.log('$stateChangeStart', arguments); });

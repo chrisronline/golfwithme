@@ -25,7 +25,9 @@
     "angular-promise-cache": "~0.0.10",
     "angular-float-labels": "~0.0.3",
     "selectize": "~0.11.0",
-    "ng-table": "~0.3.3"
+    "ng-table": "~0.3.3",
+    "angular-data": "~1.0.1",
+    "angular-cache": "~3.1.1"
   },
   "overrides": {
     "bootstrap-sass-official": {
@@ -42,6 +44,17 @@
       }
     },
     "satellizer": {
+      "dependencies": {
+        "angular": "*"
+      }
+    },
+    "angular-data": {
+      "dependencies": {
+        "angular": "*",
+        "angular-cache": "*"
+      }
+    },
+    "angular-cache": {
       "dependencies": {
         "angular": "*"
       }

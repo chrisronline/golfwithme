@@ -13,19 +13,19 @@
       })
   }
 
-  function LogoutCtrl($state, LoginService) {
-    LoginService.logout()
+  function LogoutCtrl($state, AuthService) {
+    AuthService.logout()
       .then(function() {
         $state.transitionTo('login');
       });
   }
 
-  function LoginCtrl($scope, LoginService, $stateParams, $state) {
+  function LoginCtrl($scope, AuthService, $stateParams, $state) {
     var loginCtrl = this;
 
     loginCtrl.user = {};
     loginCtrl.login = function() {
-      LoginService.login(loginCtrl.user.email, loginCtrl.user.password, loginCtrl.user.remember)
+      AuthService.login(loginCtrl.user.email, loginCtrl.user.password, loginCtrl.user.remember)
         .then(function() {
           $state.transitionTo('dashboard');
         })

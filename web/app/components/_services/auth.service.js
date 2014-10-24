@@ -1,21 +1,45 @@
 (function() {
   'use strict';
 
-  function AuthService($rootScope, $state) {
+  function AuthService(DSCacheFactory, RestService, $rootScope, $state) {
     var service = {};
+    var dsCache = DSCacheFactory.createCache('auth');
+
+    function handleLogin(response) {
+      service.statics.context = response;
+      service.statics.isAuthed = true;
+      return response;
+    }
+
+    function cacheLogin(response) {
+      dsCache.put('auth', response);
+    }
+
+    function handleLogout(response) {
+      service.statics.context = null;
+      service.statics.isAuthed = false;
+    }
 
     service.isAuthed = function() {
       return service.statics.isAuthed;
     };
 
-    service.handleLogin = function(response) {
-      service.statics.context = response;
-      service.statics.isAuthed = true;
+    service.login = function(email, password) {
+      return RestService.post('auth/sign_in', { user: { email: email, password: password } })
+        .then(handleLogin)
+        .then(cacheLogin);
     };
 
-    service.handleLogout = function() {
-      service.statics.context = null;
-      service.statics.isAuthed = false;
+    service.logout = function() {
+      return RestService.del('auth/sign_out')
+        .then(handleLogout);
+    };
+
+    service.check = function() {
+      var data = dsCache.get('auth');
+      if (data && data.auth_token && data.email) {
+        handleLogin(data);
+      }
     };
 
     service.manage = function() {
@@ -24,7 +48,8 @@
           $event.preventDefault();
           $state.transitionTo('login', { redirect: true });
         }
-      })
+      });
+      service.check();
     };
 
     service.statics = {
