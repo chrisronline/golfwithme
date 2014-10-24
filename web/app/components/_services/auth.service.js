@@ -18,6 +18,8 @@
     function handleLogout(response) {
       service.statics.context = null;
       service.statics.isAuthed = false;
+      dsCache.remove('auth');
+      $state.transitionTo('home');
     }
 
     service.isAuthed = function() {
@@ -32,7 +34,8 @@
 
     service.logout = function() {
       return RestService.del('auth/sign_out')
-        .then(handleLogout);
+        // todo: once this works, change this to only happen on success
+        .finally(handleLogout);
     };
 
     service.check = function() {
@@ -47,6 +50,10 @@
         if (toState.requiresAuth && !service.isAuthed()) {
           $event.preventDefault();
           $state.transitionTo('login', { redirect: true });
+        }
+        else if (!toState.requiresAuth && service.isAuthed() && toState.name !== 'logout') {
+          $event.preventDefault();
+          $state.transitionTo('dashboard');
         }
       });
       service.check();
